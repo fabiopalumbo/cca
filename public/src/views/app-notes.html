@@ -1,0 +1,58 @@
+<div class="page-heading">
+    <h1>Notes</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a href="#" class="btn btn-default"><i class="fa fa-fw fa-wrench"></i></a>
+        </div>
+    </div>
+</div>
+<ol class="breadcrumb">
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Applications</a></li>
+<li class="active"><a href="#/app-notes">Notes</a></li>
+</ol>
+
+<div class="container-fluid">
+    <div id="panel-advancedoptions" ng-controller="notesController">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default note-panel" id="tl1" notes-app notes="notes">
+                    <div class="panel-heading">
+                        <h2>Notes</h2>
+                    </div>
+                    <div class="panel-body panel-body panel-no-padding">
+                        <div class="notes-container row no-gutter">
+                            <div class="col-xs-5 col-sm-4 col-md-3">
+                                <div class="notes-sidebar">
+                                    <div class="notes-list scroll-pane">
+                                        <div class="scroll-content">
+                                            <div class="notes-snippet active">
+                                                <h6 class="notes-title">...</h6>
+                                                <span class="notes-date">9/23/2014 at 11:32 PM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="notes-options clearfix">
+                                        <button class="pull-left btn btn-success">New</button>
+                                        <div class="pull-right">
+                                            <button class="btn btn-default btn-danger"><i class="fa fa-trash-o"></i></button> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-7 col-sm-8 col-md-9">
+                                <div class="note scrollthis scroll-pane" spellcheck="false">
+                                    <div class="note-content scroll-content" meditor>
+                                        Hello, this is a demo note :)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- .container-fluid -->

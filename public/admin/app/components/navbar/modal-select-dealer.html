@@ -1,0 +1,25 @@
+<form id="select-dealer-modal" name="form" class="register-form">
+  <div class="modal-header text-center">
+    <h3>Elegir Concesionaria</h3>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <ui-select class="text-left" data-ng-model="selectedDealer" ng-change="setDealer($select.selected.id)" style="min-width: 100%;margin-left:0 !important;margin-right:0 !important">
+          <ui-select-match placeholder="Seleccionar concesionaria">
+            <span ng-bind="$select.selected.name"></span>
+          </ui-select-match>
+          <ui-select-choices repeat="dealer in dealers track by dealer.id | filter:$select.search">
+            <span ng-bind="dealer.name"></span>
+          </ui-select-choices>
+        </ui-select>
+        <!--<div class="form-group col-xs-12 icheck-flat" sly-repeat="dealer in dealers | limitTo:10">-->
+          <!--<div class="radio icheck"><label><input icheck="flat-blue" type="radio" name="optionsRadios-flat" data-ng-model="dealerSelected.value" value="{{::dealers[$index]}}"><span style="padding-left:5px">{{::dealer.name}}</span></label></div>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-social btn-facebook-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Aceptar</button>
+  </div>
+</form>

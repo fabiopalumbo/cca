@@ -1,0 +1,55 @@
+<div class="page-heading">
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <h2>Usuarios</h2>
+    </div>
+    <div class="col-md-6 text-right pull-right">
+      <a data-ng-click="openEditUser()" class="btn btn-social btn-facebook-alt" type="button"><span></span><i class="fa fa-fw fa-plus"></i> Agregar usuario</a>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <form name="form" data-ng-submit="tableParams.reload();" class="form-horizontal">
+      <div class="form-group">
+        <label for="filter_name" class="col-sm-3">Filtrar nombres</label>
+        <div class="col-sm-12">
+          <input id="filter_name" class="form-control" type="text" name="name" data-ng-model="search.name" placeholder="Buscar por nombre" />
+        </div>
+      </div>
+  </form>
+  <div class="table-responsive">
+    <table ng-table="tableParams" class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th class="sortable" data-property="countrycode">ID</th>
+        <th class="sortable" data-property="population">Nombre</th>
+        <th class="sortable" data-property="population">Apellido</th>
+        <th class="sortable" data-property="fcodeName">Email</th>
+        <td></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="obj in users | filter:search">
+        <td data-title="'ID'" sortable="id">
+          {{obj.id}}
+        </td>
+        <td data-title="'Nombre'" sortable="first_name">
+          {{obj.first_name}}
+        </td>
+        <td data-title="'Apellido'" sortable="last_name">
+          {{obj.last_name}}
+        </td>
+        <td data-title="'Email'" sortable="email">
+          {{obj.email}}
+        </td>
+        <td data-title="''" class="text-center">
+          <div class="buttons">
+            <button class="btn btn-sm btn-midnightblue-alt" ng-click="openEditUser(obj.id)" data-tooltip="Editar"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-sm btn-danger-alt" ng-click="removeUser(obj.id)" data-tooltip="Eliminar"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

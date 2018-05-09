@@ -1,0 +1,40 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>Consultas</h3>
+  </div>
+	<div class="modal-body">
+    <tabset tab-theme="orange">
+      <tab heading="Consultas">
+        <div class="row">
+          <div id="profiles-modal-spinner" style="margin-top: -20px !important;margin-bottom:30px" class="container-fluid spinner"></div>
+          <div data-ng-show="!loading">
+            <div class="col-sm-12 col-xs-12 form-group">
+              <label for="platform">Plataforma </label>
+              <input data-ng-disabled="object.platform" id="platform" class="form-control" type="text" name="platform" data-ng-model="object.platform" required/>
+              <label for="email">Email </label>
+              <input data-ng-disabled="object.email" id="email" class="form-control" type="text" name="email" data-ng-model="object.email" required/>
+              <label for="date">Fecha </label>
+              <input data-ng-disabled="object.date" id="date" class="form-control" type="text" name="date" data-ng-model="object.date" required/>
+              <br>
+              <h5>Consultas: </h5>
+              <div>
+                <div class="question" data-ng-show="object.question">Pregunta: {{object.question}}</div>
+                <div class="answer" data-ng-show="object.answer" >Respuesta: {{object.answer}}</div>
+                <textarea data-ng-show="!object.answer" data-ng-disabled="ver" rows="4" cols="50" ng-trim="false" maxlength="255" data-ng-minLength="1" id="description" class="form-control"  name="description" data-ng-model="object.query.answer" placeholder="Respuesta..." required>
+                </textarea>
+                <br>
+                <span data-ng-show="!object.answer" style="color:#a2a2a2;font-size:14px;" class="form-help pull-right">{{255-object.answer.length}}</span>
+                <button data-ng-show="!object.answer" data-ng-disabled="ver || object.answer.length == 0" class="btn btn-midnightblue-alt" data-ng-click="answer()"><i class="fa fa-fw fa-commenting-o"></i> Responder</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </tab>
+      </tabset>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close()" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+	</div>
+</form>

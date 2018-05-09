@@ -1,0 +1,24 @@
+<center>
+    <p class="view-title" style="color:white;">LOGIN</p>
+    <form name="loginForm">
+        <ul class="list list-padding">
+            <li class="list__item">
+                <i ng-hide="user.email == '' || !loginForm.email.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.email == '' || loginForm.email.$valid" class="fa fa-times ex-icon"></i>
+                <input name="email" id="user" type="email" class="text-input text-input--transparent view-input" ng-pattern="/^[@._+a-zA-Z0-9áéíóúäëïöüàèìòùÁÉÍÓÚÄËÏÖÜÀÈÌÒÙ'-]*$/" ng-model="user.email" placeholder="Email"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.password == '' || !loginForm.password.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.password == '' || loginForm.password.$valid" class="fa fa-times ex-icon"></i>
+                <input name="password" id="password" type="{{inputType}}" class="text-input text-input--transparent view-input" ng-pattern="/^[a-zA-Z0-9]*$/" ng-model="user.password" placeholder="Password"/>
+            </li>
+        </ul>
+        <label class="checkbox">
+            <input type="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()">
+            <div class="checkbox__checkmark"></div>
+            <small>Checkbox</small>
+        </label>
+    </form>
+    <button class="button button--outline form-button" ng-disabled="user.email == '' || user.password == '' || !loginForm.$valid" ng-click="printValues()">Iniciar Sesion</button>
+    <p><small>¿Primera Vez?</small><a ng-click="$root.redirect('/register')" class="text-muted text-center naranja"> Registrate</a></p>
+</center>

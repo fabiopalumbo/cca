@@ -1,0 +1,92 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id ? 'Editar':'Agregar'}} vehiculo</h3>
+  </div>
+	<div class="modal-body">
+    <tabset tab-theme="orange">
+      <tab heading="Datos">
+        <div name="form" data-ng-submit="tableParams.reload();">
+          <div class="row">
+            <div class="col-sm-6 form-group">
+              <label for="sale_condition">Condición <small class="text-muted">(Obligatorio)</small></label>
+              <select id="sale_condition" class="form-control" name="sale_condition" data-ng-model="object.sale_condition" data-ng-change="filterKMs(object.sale_condition)" required autofocus data-ui-select2>
+                <option data-ng-repeat="condition in conditions | orderBy: 'name'" value="{{condition.val}}">{{condition.name}} </option>
+              </select>
+              <label for="brand">Marca <small class="text-muted">(Obligatorio)</small></label>
+              <select id="brand" class="form-control" name="brand" data-ng-model="object.brand_id" data-ng-change="filterModels(object.brand_id)" required data-ui-select2>
+                <option data-ng-repeat="brand in brands | orderBy: 'name'" value="{{brand.id}}">{{brand.name}} </option>
+              </select>
+              <label for="domain">Dominio <small class="text-muted">(Obligatorio)</small></label>
+              <input id="domain" class="form-control" type="text" name="domain" data-ng-model="object.domain" required/>
+              <label for="version">Version</label>
+              <input id="version" class="form-control" type="text" name="version" data-ng-model="object.version" required/>
+              <label for="fuel">Combustible <small class="text-muted">(Obligatorio)</small></label>
+              <select  id="fuel" class="form-control" data-ng-model="object.type_vehicle_fuel_id"  data-ui-select2>
+                <option data-ng-repeat="fuel in fuels | orderBy: 'name'" value="{{fuel.id}}">{{fuel.name}} </option>
+              </select>
+              <label for="color">Color</label>
+              <select id="color" class="form-control" data-ng-model="object.color"  data-ui-select2>
+                <option data-ng-repeat="color in colors | orderBy: 'name'" value="{{color.id}}">{{color.name}}</option>
+              </select>
+              <label for="chasis_number">N° de chasis</label>
+              <input id="chasis_number" class="form-control" type="text" name="chasis_number" data-ng-model="object.chasis_number" />
+              <label for="direction">Dirección</label>
+              <select id="direction" class="form-control" name="direction" data-ng-model="object.direction"  data-ui-select2>
+                <option data-ng-repeat="direction in directions | orderBy: 'name'" value="{{direction.val}}">{{direction.name}} </option>
+              </select>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="year">Año <small class="text-muted">(Obligatorio)</small></label>
+              <input id="year" class="form-control" type="text" name="year" data-ng-model="object.year" required/>
+              <label for="model">Modelo <small class="text-muted">(Obligatorio)</small></label>
+              <select id="model" class="form-control" name="model" data-ng-model="object.model_id" required data-ui-select2>
+                <option data-ng-hide="hideModels" data-ng-repeat="model in models | orderBy: 'name' | filter:filters" value="{{model.id}}">{{model.name}} </option>
+              </select>
+              <label for="type">Tipo <small class="text-muted">(Obligatorio)</small></label>
+              <select   id="type" class="form-control" name="type" data-ng-model="object.type"  data-ui-select2 required>
+                <option data-ng-repeat="type in types | orderBy: 'name'" value="{{type.id}}">{{type.name}} </option>
+              </select>
+              <label for="kilometers">Kilómetros</label>
+              <input id="kilometers" class="form-control" type="text" name="kilometers" data-ng-model="object.kilometers"  />
+              <label for="owner">Titular</label>
+              <input id="owner" class="form-control" type="text" name="owner" data-ng-model="object.owner"  />
+              <label for="price">Precio <small class="text-muted">(Obligatorio)</small></label>
+              <input id="price" class="form-control" type="text" name="price" data-ng-model="object.price" required/>
+              <label for="transmission">Transmisión</label>
+              <select id="transmission" class="form-control" name="transmission" data-ng-model="object.transmission"  data-ui-select2>
+                <option data-ng-repeat="transmission in transmissions | orderBy: 'name'" value="{{transmission.val}}">{{transmission.name}} </option>
+              </select>
+              <label for="heating">Calefacción</label>
+              <select id="heating" class="form-control" name="heating" data-ng-model="object.heating"  data-ui-select2>
+                <option data-ng-repeat="heating in heatings | orderBy: 'name'" value="{{heating.val}}">{{heating.name}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab heading="Notas">
+        <div class="row">
+          <label><input type="checkbox" > </label>
+          <br>
+        </div>
+      </tab>
+      <tab heading="Fotos" disabled="true">
+        <div class="row">
+          <label><input type="checkbox" > </label>
+          <br>
+        </div>
+      </tab>
+      <tab heading="Características">
+        <div data-ng-repeat="feature in features" class="row">
+          <label><input type="checkbox" data-ng-model="selected" data-ng-change="changeFeatures($index,selected)" > {{feature.name}}</label>
+          <br>
+        </div>
+      </tab>
+    </tabset>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="form.$invalid" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

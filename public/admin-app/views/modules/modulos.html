@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<body>
+<br>
+<center><div style="width:80%;height:50%;margin-top:90px;margin-left:50px;" id="ancho">
+    <section class="panel">
+        <header class="panel-heading" style="font-size:20px; ">Modulos<i class="fa fa-info-sign text-muted" data-toggle="popover" data-html="true" data-placement="top" data-content="The datagrid use ajax to load the data. please put this file on a server to preview." title="" data-trigger="hover" data-original-title="Help"></i> </header>
+        <div class="table-responsive">
+            <table id="MyStretchGrid" class="table table-striped datagrid m-b-small">
+                <thead>
+                <tr>
+                    <th class="sortable" data-property="countrycode">Nombre</th>
+                    <th class="sortable" data-property="population">Grupo</th>
+                    <th class="sortable" data-property="fcodeName">Read</th>
+                    <th class="sortable" data-property="fcodeName">Create</th>
+                    <th class="sortable" data-property="fcodeName">Update</th>
+                    <th class="sortable" data-property="fcodeName">Delete</th>
+                    <th class="sortable" data-property="fcodeName">List</th>
+                    <td></td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr data-ng-repeat="modulo in modulosObj | filter:search">
+                    <td>{{modulo.nombre_modulo}}</td>
+                    <td>{{modulo.nombre_grupo}}</td>
+                    <td><i class="fa" ng-class="{'fa-times': !modulo.read, 'fa-check': modulo.read}" data-ng-click="changeStatusModule(modulo,'read')" data-ng-show="modulo.read_edit"></i></td>
+                    <td><i class="fa" ng-class="{'fa-times': !modulo.create , 'fa-check': modulo.create }" data-ng-click="changeStatusModule(modulo,'create')" data-ng-show="modulo.create_edit"></i></td>
+                    <td><i class="fa" ng-class="{'fa-times': !modulo.update , 'fa-check': modulo.update }" data-ng-click="changeStatusModule(modulo,'update')" data-ng-show="modulo.update_edit"></i></td>
+                    <td><i class="fa" ng-class="{'fa-times': !modulo.delete , 'fa-check': modulo.delete }" data-ng-click="changeStatusModule(modulo,'delete')" data-ng-show="modulo.delete_edit"></i></td>
+                    <td><i class="fa" ng-class="{'fa-times': !modulo.list , 'fa-check': modulo.list }" data-ng-click="changeStatusModule(modulo,'list')" data-ng-show="modulo.list_edit"></i></td>
+                    <td><a class="btn btn-success" data-ng-click="updateModule(modulo)" data-ng-disabled="!modulo.change" style="margin-top:22px;">Actualizar</a></td>
+                </tr>
+                </tbody>
+                        <div class="row">
+                            <div class="col-sm-8" >
+
+                                <div class="select filter m-b-small m-t-small pull-left" style="margin-left:20px;" data-resize="auto">
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
+                                        <span class="dropdown-label" >{{selected}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" >
+                                        <li data-ng-repeat="group in groups" >
+                                            <a data-ng-click="filterGroup(group.id)">{{group.name}}</a>
+                                        </li>
+                                        <li>
+                                        <a data-ng-click="filterGroup(0)">Todos</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" style="margin-left:-15px">
+                                <div class="input-group search datagrid-search m-t-small">
+                                    <input type="text" class="input-sm form-control" placeholder="Buscar">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-white btn-sm" data-ng-click="filterBy(moduleFilter)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tfoot>
+                <tr>
+                    <th class="row">
+                        <div class="datagrid-footer-left col-sm-6 text-center-sm m-l-n" style="display:none;">
+                            <div class="grid-controls m-t-small">
+                          <span>
+                            <span class="grid-start"></span> -
+                            <span class="grid-end"></span> of
+                            <span class="grid-count"></span>
+                          </span>
+                                <div class="select grid-pagesize dropup" data-resize="auto">
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
+                                        <span class="dropdown-label"></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li data-value="5" data-selected="true"><a href="#">5</a></li>
+                                        <li data-value="10"><a href="#">10</a></li>
+                                        <li data-value="20"><a href="#">20</a></li>
+                                        <li data-value="50"><a href="#">50</a></li>
+                                        <li data-value="100"><a href="#">100</a></li>
+                                    </ul>
+                                </div>
+                                <span>Per Page</span>
+                            </div>
+                        </div>
+                        <div class="datagrid-footer-right col-sm-6 text-right text-center-sm m-r-n" style="display:none;">
+                            <div class="grid-pager">
+                                <button type="button" class="btn btn-sm btn-white grid-prevpage"><i class="fa fa-chevron-left"></i></button>
+                                <span>Page</span>
+                                <div class="inline">
+                                    <div class="input-group dropdown combobox">
+                                        <input class="input-sm form-control" type="text">
+                                        <div class="input-group-btn dropup">
+                                            <button class="btn btn-sm btn-white" data-toggle="dropdown"><i class="caret"></i></button>
+                                            <ul class="dropdown-menu pull-right"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span>of <span class="grid-pages"></span></span>
+                                <button type="button" class="btn btn-sm btn-white grid-nextpage"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+</div>
+</center>
+</body>
+</html>

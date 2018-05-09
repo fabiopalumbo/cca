@@ -1,0 +1,23 @@
+{
+  "cuenta0": {
+    "name": "matias",
+    "surname": "goitea",
+    "email": "matiasjgoitea@gmail.com",
+    "phone": "45454545",
+    "password": "loopear"
+  },
+  "cuenta1": {
+    "name": "matias",
+    "surname": "matheson",
+    "email": "matias.matheson@loopear.com",
+    "phone": "45454545",
+    "password": "loopear"
+  },
+  "cuenta2": {
+    "name": "matias",
+    "surname": "olguin",
+    "email": "matias@loopear.com",
+    "phone": "45454545",
+    "password": "loopear"
+  }
+}

@@ -1,0 +1,122 @@
+<div class="page-heading">
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <h2>Vinculaciones</h2>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" ng-show="links">
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-ml.png">
+    <h4 data-ng-show="links.mercadolibre.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.mercadolibre.username || links.mercadolibre.linking" data-ng-click="nuevaVentana()">Vincular</button>
+    <!--<div class="col-sm-6" data-ng-show="links.mercadolibre.linking">-->
+      <!--<input class="form-control" ng-model="links.mercadolibre.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.mercadolibre.data.app_secret"    placeholder="app_secret"    />-->
+      <!--<input class="form-control" ng-model="links.mercadolibre.data.app_signature" placeholder="app_signature" />-->
+    <!--</div>-->
+    <!--<button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.mercadolibre.linking" ng-click="link(links.mercadolibre)">Vincular</button>-->
+    <button class="col-sm-3 vincular-button" data-ng-show="links.mercadolibre.username" ng-click="unlink(links.mercadolibre)">Desvincular</button>
+    <p data-ng-hide="links.mercadolibre.username || links.mercadolibre.linking" class="col-sm-6 vincular-p">
+      Usted debe tener una cuenta creada en Mercado Libre. Si ya la tiene haga click en Vincular e ingrese sus datos, si no tiene una cuenta haga <a>click aqui</a> para crearla
+    </p>
+  </div>
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-da.png">
+    <h4 data-ng-show="links.deautos.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.deautos.username || links.deautos.linking" ng-click="links.deautos.linking = true">Vincular</button>
+    <div class="col-sm-6" data-ng-show="links.deautos.linking">
+      <input class="form-control" ng-model="links.deautos.data.user" placeholder="user"/>
+      <input class="form-control" ng-model="links.deautos.data.password" placeholder="password"/>
+    </div>
+    <button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.deautos.linking" ng-click="link(links.deautos)">Vincular</button>
+    <button class="col-sm-3 vincular-button" data-ng-show="links.deautos.username" ng-click="unlink(links.deautos)">Desvincular</button>
+    <p data-ng-hide="links.deautos.username || links.deautos.linking" class="col-sm-6 vincular-p">
+      Usted debe tener una cuenta creada en De Autos.<br/> Si ya la tiene haga click en Vincular e ingrese sus datos, si no tiene una cuenta haga <a>click aqui</a> para crearla</p>
+  </div>
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-dm.png">
+    <h4 data-ng-show="links.demotores.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.demotores.username || links.demotores.linking" ng-click="links.demotores.linking = true">Vincular</button>
+    <div class="col-sm-6" data-ng-show="links.demotores.linking">
+      <!--<input class="form-control" ng-model="links.demotores.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.demotores.data.app_secret"    placeholder="app_secret"    />-->
+      <input class="form-control" ng-model="links.demotores.data.user_id" placeholder="USER_ID" />
+    </div>
+    <button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.demotores.linking" ng-click="link(links.demotores)">Vincular</button>
+    <button class="col-sm-3 vincular-button" data-ng-show="links.demotores.username" ng-click="unlink(links.demotores)">Desvincular</button>
+    <p data-ng-hide="links.demotores.username || links.demotores.linking" class="col-sm-6 vincular-p">
+      Usted debe tener una cuenta creada en DeMotores.<br/>Si ya la tiene haga click en Vincular e ingrese sus datos, si no tiene una cuenta haga <a>click aqui</a> para crearla</p>
+  </div>
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-ac.png">
+    <h4 data-ng-show="links.autocosmos.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.autocosmos.username || links.autocosmos.linking" ng-click="links.autocosmos.linking = true">Vincular</button>
+    <div class="col-sm-6" data-ng-show="links.autocosmos.linking">
+      <!--<input class="form-control" ng-model="links.autocosmos.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.autocosmos.data.app_secret"    placeholder="app_secret"    />-->
+      <input class="form-control" ng-model="links.autocosmos.data.user_signature" placeholder="user_signature" />
+      <input class="form-control" ng-model="links.autocosmos.data.email" placeholder="email" />
+    </div>
+    <button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.autocosmos.linking" ng-click="link(links.autocosmos)">Vincular</button>
+    <button class="col-sm-3 vincular-button" data-ng-show="links.autocosmos.username" ng-click="unlink(links.autocosmos)">Desvincular</button>
+    <p data-ng-hide="links.autocosmos.username || links.autocosmos.linking" class="col-sm-6 vincular-p">
+      Al momento de Vincular iniciaremos el proceso creación de una nueva cuenta en Autocosmos, el mismo puede demorar hasta 48hs.</p>
+  </div>
+  <!--<div class="col-sm-12">-->
+    <!--<img class="col-sm-3 vincular-img" src="assets/img/portales/portal-af.png">-->
+    <!--<h4 data-ng-show="links.autofoco.username" class="col-sm-6">Cuenta vinculada</h4>-->
+    <!--<button class="col-sm-3 vincular-button" data-ng-hide="links.autofoco.username || links.autofoco.linking" ng-click="links.autofoco.linking = true">Vincular</button>-->
+    <!--<div class="col-sm-6" data-ng-show="links.autofoco.linking">-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_secret"    placeholder="app_secret"    />-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_signature" placeholder="app_signature" />-->
+    <!--</div>-->
+    <!--<button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.autofoco.linking" ng-click="link(links.autofoco)">Vincular</button>-->
+    <!--<button class="col-sm-3 vincular-button" data-ng-show="links.autofoco.username" ng-click="unlink(links.autofoco)">Desvincular</button>-->
+    <!--<p data-ng-hide="links.autofoco.username || links.autofoco.linking" class="col-sm-6 vincular-p">-->
+      <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
+  <!--</div>-->
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-af.png">
+    <h4 data-ng-show="links.autofoco.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.autofoco.username || links.autofoco.linking" ng-click="links.autofoco.linking = true" disabled>Vincular</button>
+    <!--<div class="col-sm-6" data-ng-show="links.autofoco.linking">-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_secret"    placeholder="app_secret"    />-->
+      <!--<input class="form-control" ng-model="links.autofoco.data.app_signature" placeholder="app_signature" />-->
+    <!--</div>-->
+    <!--<button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.autofoco.linking" ng-click="link(links.autofoco)">Vincular</button>-->
+    <button class="col-sm-3 vincular-button" data-ng-show="links.autofoco.username" ng-click="unlink(links.autofoco)" disabled>Desvincular</button>
+    <p data-ng-hide="links.autofoco.username || links.autofoco.linking" class="col-sm-6 vincular-p">
+      ----------</p>
+  </div>
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-olx.png">
+    <h4 data-ng-show="links.olx.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.olx.username || links.olx.linking" ng-click="links.olx.linking = true" disabled>Vincular</button>
+    <!--<div class="col-sm-6" data-ng-show="links.olx.linking">-->
+      <!--<input class="form-control" ng-model="links.olx.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.olx.data.app_secret"    placeholder="app_secret"    />-->
+      <!--<input class="form-control" ng-model="links.olx.data.app_signature" placeholder="app_signature" />-->
+    <!--</div>-->
+    <!--<button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.olx.linking" ng-click="link(links.olx)">Vincular</button>-->
+    <button class="col-sm-3 vincular-button" data-ng-show="links.olx.username" ng-click="unlink(links.olx)" disabled>Desvincular</button>
+    <p data-ng-hide="links.olx.username || links.olx.linking" class="col-sm-6 vincular-p">
+      ----------</p>
+  </div>
+  <div class="col-sm-12">
+    <img class="col-sm-3 vincular-img" src="assets/img/portales/portal-fc.png">
+    <h4 data-ng-show="links.facebook.username" class="col-sm-6">Cuenta vinculada</h4>
+    <button class="col-sm-3 vincular-button" data-ng-hide="links.facebook.username || links.facebook.linking" ng-click="links.facebook.linking = true" disabled>Vincular</button>
+    <!--<div class="col-sm-6" data-ng-show="links.facebook.linking">-->
+      <!--<input class="form-control" ng-model="links.facebook.data.app_key"       placeholder="app_key"       />-->
+      <!--<input class="form-control" ng-model="links.facebook.data.app_secret"    placeholder="app_secret"    />-->
+      <!--<input class="form-control" ng-model="links.facebook.data.app_signature" placeholder="app_signature" />-->
+    <!--</div>-->
+    <!--<button class="col-sm-3 vincular-button btn-danger" data-ng-show="links.facebook.linking" ng-click="link(links.facebook)" disabled>Vincular</button>-->
+    <button class="col-sm-3 vincular-button" data-ng-show="links.facebook.username" ng-click="unlink(links.facebook)" disabled>Desvincular</button>
+    <p data-ng-hide="links.facebook.username || links.facebook.linking" class="col-sm-6 vincular-p">
+      Usted debe tener una cuenta en Facebook y además ser administrador de la página de Facebook sobre la que desea realizar las publicaciones. Si necesita ayuda con éste paso <a>póngase en contacto con nosotros.</a></p>
+  </div>
+</div>

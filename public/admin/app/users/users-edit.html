@@ -1,0 +1,50 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id?'Editar':'Agregar'}} usuario</h3>
+  </div>
+	<div class="modal-body">
+    <tabset tab-theme="orange">
+      <tab heading="Datos">
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="nombre">Nombre:</label>
+            <input id="nombre" class="form-control" type="text" name="nombre" data-ng-model="object.first_name" data-ng-change="checkStatus()" required autofocus />
+            <label for="apellido">Apellido:</label>
+            <input id="apellido" class="form-control" type="text" name="apellido" data-ng-model="object.last_name" data-ng-change="checkStatus()" required />
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="email">Email:</label>
+            <input id="email" class="form-control" type="text" name="email" data-ng-model="object.email" ng-disabled="object.id" required/>
+            <label for="phone">Telefono:</label>
+            <input id="phone" class="form-control" type="text" name="phone" data-ng-model="object.phone" data-ng-change="checkStatus()" required/>
+          </div>
+          <!--<div class="form-group col-sm-6" ng-if="object.id">
+            <a class="btn btn-inverse-alt" ng-click="recoverPassword()" type="button">Recuperar contraseña</a>
+          </div>-->
+          <div class="form-group col-sm-6">
+            <label for="pass" ng-if="!object.id">Contraseña:</label>
+            <label for="pass" ng-if="object.id">Cambiar contraseña:</label>
+            <input id="pass" class="form-control" type="password" name="pass" data-ng-model="object.password" ng-required="!object.id"/>
+          </div>
+        </div>
+      </tab>
+      <tab heading="Concesionarias">
+        <div ng-repeat="dealer in dealers" class="row">
+          <label><input type="checkbox" data-ng-checked="dealer.selected" data-ng-model="dealer.selected"> {{dealer.name}}</label>
+          <br>
+        </div>
+      </tab>
+	    <tab heading="Permisos">
+		    <div ng-repeat="group in groups" class="row">
+			    <label><input type="checkbox" data-ng-checked="group.selected" data-ng-model="group.selected"> {{group.name}}</label>
+			    <br>
+		    </div>
+	    </tab>
+    </tabset>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="form.$invalid" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

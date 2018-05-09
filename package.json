@@ -1,0 +1,31 @@
+{
+  "name": "cca-fonsoft",
+  "version": "1.0.0",
+  "description": "Compile - Concat - Minify",
+  "main": "compile-less.js,gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "fs": "^0.0.2",
+    "gulp": "^3.8.11",
+    "gulp-replace": "^0.5.3",
+    "gulp-concat": "^2.5.2",
+    "gulp-uglify": "^1.1.0",
+    "less": "^2.5.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Goico@bitbucket.org/loopear_cca/cca-fonsoft.git"
+  },
+  "author": [
+    "Loopear Software Factory"
+  ],
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/loopear_cca/cca-fonsoft#readme"
+}

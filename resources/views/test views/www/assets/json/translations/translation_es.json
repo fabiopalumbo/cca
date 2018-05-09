@@ -1,0 +1,42 @@
+{
+  "LANGUAGE_TITLE":"Español",
+  "LANGUAGE":"Idiomas",
+  "HELLO_WORLD": "Hola Mundo!",
+  "REGISTER": "Registrarse",
+  "LOG_IN": "Iniciar Sesión",
+  "LOG_OUT": "Salir",
+  "CLOSE": "Cerrar",
+  "VIEW": {
+    "LOGIN": {
+      "TITLE": "Inicio de Sesión",
+      "USER": "usuario",
+      "EMAIL": "email",
+      "PASSWORD": "contraseña",
+      "BUTTON": "Iniciar Sesión",
+      "CHECKBOX": "Mostrar contraseña",
+      "FIRST_TIME": "¿Primera vez?",
+      "REGISTER": "Regístrate"
+    },
+    "REGISTER": {
+      "TITLE": "Registro",
+      "USER": "usuario",
+      "PHONE": "teléfono (opcional)",
+      "NAME": "nombre",
+      "SURNAME": "apellido",
+      "EMAIL": "email",
+      "PASSWORD": "contraseña",
+      "REPEAT_PASSWORD": "repetir contraseña",
+      "BUTTON": "Registrarse",
+      "HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
+      "LOGIN": "Inicia Sesión"
+    },
+    "HOME":{
+      "APP_TITTLE": "Aplicaciones Móviles",
+      "APP_INFO": "Expertos en desarrollo de aplicaciones móviles, trabajan todos los días en Loopear, para crear las aplicaciones mas robustas, eficientes y atractivas del mercado. Tenemos especialistas dedicados al desarrollo de aplicaciones en diferentes plataformas: iOS, Android, BBOS, Windows Phone entre otras. Brindamos soporte durante todo el tiempo de vida de su aplicación.",
+      "SOFT_TITTLE": "Software a Medida",
+      "SOFT_INFO": "Ofrecemos soluciones completas de software tanto local como en red o en entornos Web que incluyan el análisis, diseño, desarrollo e implementacion que mejor se adapte a sus necesidades. Garantizamos la puesta en funcionamiento de portales Web, el alojamiento en servidores o plataformas, SEO organico y su posterior mantenimiento.",
+      "OUT_TITTLE": "OutSourcing de Programadores",
+      "OUT_INFO": "¿Su empresa tiene necesidad de programadores especializados para crear, mantener o modificar alguna de sus aplicaciones? Loopear cuenta con programadores, analistas, diseñadores, DBAs y testers altamente capacitados y actualizados, listos para integrarse a su proyecto tan rapido como usted lo necesite."
+    }
+  }
+}

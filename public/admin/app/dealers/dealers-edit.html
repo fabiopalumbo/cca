@@ -1,0 +1,69 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close()"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id?'Editar':'Agregar'}} concesionaria</h3>
+  </div>
+	<div class="modal-body">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="partner">Socio: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="partner" class="form-control" type="text" name="partner" data-ng-model="object.partner" data-ng-change="checkStatus()" required autofocus />
+        <label for="company">Empresa: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="company" class="form-control" type="text" name="company" data-ng-model="object.company" data-ng-change="checkStatus()" required autofocus />
+        <label for="cuit">CUIT: <span class="text-muted">(Obligatorio) (sin guiones)</span></label>
+        <input id="cuit" class="form-control" type="text" name="cuit" data-ng-model="object.cuit" data-ng-change="checkStatus()" required autofocus />
+        <label for="last_name">Apellido: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="last_name" class="form-control" type="text" name="last_name" data-ng-model="object.last_name" data-ng-change="checkStatus()" required autofocus />
+        <label for="name">Nombre: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="name" class="form-control" type="text" name="name" data-ng-model="object.name" data-ng-change="checkStatus()" required />
+        <div class="col-sm-3" style="padding-left:0!important">
+          <label for="dni_type">Tipo:</label>
+          <select class="form-control" id="dni_type" name="dni_type" data-ng-model="object.dni_type" required>
+            <option value="CI">CI</option>
+            <option value="DU">DU</option>
+            <option value="LC">LC</option>
+            <option value="LE">LE</option>
+          </select>
+        </div>
+        <div class="col-sm-9" style="padding-right:0!important">
+          <label for="dni">Documento: <span class="text-muted">(Obligatorio)</span></label>
+          <input id="dni" class="form-control" type="text" name="dni" data-ng-model="object.dni" data-ng-change="checkStatus()" required />
+        </div>
+        <br>
+        <label for="address">Dirección: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="address" class="form-control" type="text" name="address" data-ng-model="object.address" data-ng-change="checkStatus()" required />
+        <label for="region">Provincia: <span class="text-muted">(Obligatorio)</span></label>
+        <select id="region" class="form-control" name="region" data-ng-model="object.region_id" required>
+          <option data-ng-repeat="region in regions | orderBy: 'name'" value="{{region.id}}" ng-selected="region.id == $parent.object.region_id">{{region.name}} </option>
+        </select>
+        <label for="region_city">Partido: <span class="text-muted">(Obligatorio)</span></label>
+        <select id="region_city" class="form-control" name="region_city" data-ng-model="object.region_city_id" required>
+          <option data-ng-repeat="region_city in regions_cities | orderBy: 'name' | filter:{region_id : object.region_id}" value="{{region_city.id}}" ng-selected="region_city.id == $parent.object.region_city_id">{{region_city.name}} </option>
+        </select>
+        <label for="location">Localidad: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="location" class="form-control" type="text" name="location" data-ng-model="object.location" data-ng-change="checkStatus()" required />
+        <label for="zip_code">Código Postal: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="zip_code" class="form-control" type="text" name="zip_code" data-ng-model="object.zip_code" data-ng-change="checkStatus()" required />
+        <label for="email">Email: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="email" class="form-control" type="text" name="email" data-ng-model="object.email" required/>
+        <label for="phone">Telefono: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="phone" class="form-control" type="text" name="phone" data-ng-model="object.phone" data-ng-change="checkStatus()" required/>
+        <label for="cellphone">Celular: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="cellphone" class="form-control" type="text" name="cellphone" data-ng-model="object.cellphone" data-ng-change="checkStatus()" required />
+        <label for="fax">Fax: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="fax" class="form-control" type="text" name="fax" data-ng-model="object.fax" data-ng-change="checkStatus()" required />
+        <label for="contact">Contacto: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="contact" class="form-control" type="text" name="contact" data-ng-model="object.contact" data-ng-change="checkStatus()" required />
+        <label for="work_hours">Horarios: <span class="text-muted">(Obligatorio)</span></label>
+        <input id="work_hours" class="form-control" type="text" name="work_hours" data-ng-model="object.work_hours" data-ng-change="checkStatus()" required/>
+      </div>
+      <div class="form-group col-sm-12">
+        <label><input type="checkbox" data-ng-model="validated"> Es socio de la CCA (Podrá acceder a todas las características del sistema)</label>
+      </div>
+    </div>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="form.$invalid" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

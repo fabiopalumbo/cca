@@ -1,0 +1,285 @@
+<!-- HEADER -->
+<header
+        class="navbar ng-hide clearfix {{getLayoutOption('topNavThemeClass')}}"
+        ng-class="{'navbar-fixed-top': getLayoutOption('fixedHeader'), 'navbar-static-top': !getLayoutOption('fixedHeader')}"
+        role="banner"
+        ng-show="!layoutLoading"
+        ng-cloak
+        id="topnav">
+
+<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg" ng-click="toggleLeftBar()" ng-show="!getLayoutOption('layoutHorizontal')">
+        <a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar"><span class="icon-bg"><i class="fa fa-fw fa-bars"></i></span></a>
+    </span>
+
+<a class="navbar-brand" href="#/">Avenger</a>
+
+    <span id="trigger-infobar" class="toolbar-trigger toolbar-icon-bg" ng-click="toggleRightBar()">
+        <a data-toggle="tooltips" data-placement="left" title="Toggle Infobar"><span class="icon-bg"><i class="fa fa-fw fa-bars"></i></span></a>
+    </span>
+
+<div class="yamm navbar-left navbar-collapse collapse in hidden-xs">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">Megamenu <span class="caret"></span></a>
+            <ul class="dropdown-menu" style="width: 900px;">
+                <li>
+                    <div class="yamm-content container-sm-height">
+                        <div class="row row-sm-height yamm-col-bordered">
+                            <div class="col-sm-3 col-sm-height yamm-col">
+
+                                <h3 class="yamm-category">Sidebar</h3>
+                                <ul class="list-unstyled mb20">
+                                    <li><a href="layout-fixed-sidebars.html">Stretch Sidebars</a></li>
+                                    <li><a href="layout-sidebar-scroll.html">Scroll Sidebar</a></li>
+                                    <li><a href="layout-static-leftbar.html">Static Sidebar</a></li>
+                                    <li><a href="layout-leftbar-widgets.html">Sidebar Widgets</a></li>
+                                </ul>
+
+                                <h3 class="yamm-category">Infobar</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="layout-infobar-offcanvas.html">Offcanvas Infobar</a></li>
+                                    <li><a href="layout-infobar-overlay.html">Overlay Infobar</a></li>
+                                    <li><a href="layout-chatbar-overlay.html">Chatbar</a></li>
+                                    <li><a href="layout-rightbar-widgets.html">Infobar Widgets</a></li>
+                                </ul>
+
+                            </div>
+                            <div class="col-sm-3 col-sm-height yamm-col">
+
+                                <h3 class="yamm-category">Page Content</h3>
+                                <ul class="list-unstyled mb20">
+                                    <li><a href="layout-breadcrumb-top.html">Breadcrumbs on Top</a></li>
+                                    <li><a href="layout-page-tabs.html">Page Tabs</a></li>
+                                    <li><a href="layout-fullheight-panel.html">Full-Height Panel</a></li>
+                                    <li><a href="layout-fullheight-content.html">Full-Height Content</a></li>
+                                </ul>
+
+                                <h3 class="yamm-category">Misc</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="layout-topnav-options.html">Topnav Options</a></li>
+                                    <li><a href="layout-horizontal-small.html">Horizontal Small</a></li>
+                                    <li><a href="layout-horizontal-large.html">Horizontal Large</a></li>
+                                    <li><a href="layout-boxed.html">Boxed</a></li>
+                                </ul>
+
+                            </div>
+                            <div class="col-sm-3 col-sm-height yamm-col">
+
+                                <h3 class="yamm-category">Analytics</h3>
+                                <ul class="list-unstyled mb20">
+                                    <li><a href="charts-flot.html">Flot</a></li>
+                                    <li><a href="charts-sparklines.html">Sparklines</a></li>
+                                    <li><a href="charts-morris.html">Morris</a></li>
+                                    <li><a href="charts-easypiechart.html">Easy Pie Charts</a></li>
+                                </ul>
+
+                                <h3 class="yamm-category">Components</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="ui-tiles.html">Tiles</a></li>
+                                    <li><a href="custom-knob.html">jQuery Knob</a></li>
+                                    <li><a href="custom-jqueryui.html">jQuery Slider</a></li>
+                                    <li><a href="custom-ionrange.html">Ion Range Slider</a></li>
+                                </ul>
+
+                            </div>
+                            <div class="col-sm-3 col-sm-height yamm-col">
+                                <h3 class="yamm-category">Rem</h3>
+                                <img src="assets/demo/stockphoto/communication_12_carousel.jpg" class="mb20 img-responsive" style="width: 100%;">
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown" id="widget-classicmenu">
+            <a class="dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<ul class="nav navbar-nav toolbar pull-right">
+    <li class="dropdown toolbar-icon-bg" autocollapse>
+        <a href="#" id="navbar-links-toggle" data-toggle="collapse" data-target="header>.navbar-collapse">
+                <span class="icon-bg">
+                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                </span>
+        </a>
+    </li>
+
+    <li class="dropdown toolbar-icon-bg demo-search-hidden">
+        <a href="#" class="dropdown-toggle tooltips" data-toggle="dropdown"><span class="icon-bg"><i class="fa fa-fw fa-search"></i></span></a>
+
+        <div class="dropdown-menu dropdown-alternate arrow search dropdown-menu-form">
+            <div class="dd-header">
+                <span>Search</span>
+                <span><a href="#">Advanced search</a></span>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="">
+
+                    <span class="input-group-btn">
+
+                        <a class="btn btn-primary" href="#">Search</a>
+                    </span>
+            </div>
+        </div>
+    </li>
+
+    <li class="toolbar-icon-bg demo-headerdrop-hidden" ng-click="showHeaderBar($event)">
+        <a id="headerbardropdown"><span class="icon-bg"><i class="fa fa-fw fa-level-down"></i></span></i></a>
+    </li>
+
+    <li class="toolbar-icon-bg hidden-xs" >
+        <a href="#" class="toggle-fullscreen"><span class="icon-bg"><i class="fa fa-fw fa-arrows-alt"></i></span></i></a>
+    </li>
+
+    <li class="dropdown toolbar-icon-bg" ng-show="isLoggedIn">
+        <a href dropdown-toggle class="hasnotifications">
+                <span class="icon-bg">
+                    <i class="fa fa-fw fa-bell"></i>
+                </span>
+            <span class="badge badge-info" ng-if="unseenCount>0" ng-bind="unseenCount"></span>
+        </a>
+        <div class="dropdown-menu dropdown-alternate animated notifications arrow">
+            <div class="dd-header">
+                <span>Notifications</span>
+                <span><a href="#/">Settings</a></span>
+            </div>
+            <div class="scrollthis scroll-pane" >
+                <ul class="scroll-content">
+                    <li ng-repeat="item in notifications">
+                        <a href="#/" class="{{item.class}}">
+                            <div class="notification-icon"><i class="fa {{item.iconClasses}} fa-fw"></i></div>
+                            <div class="notification-content">{{item.text}}</div>
+                            <div class="notification-time">{{item.time}}</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dd-footer">
+                <a href="#/">See all notifications</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="dropdown toolbar-icon-bg hidden-xs" ng-show="isLoggedIn">
+        <a href dropdown-toggle class="hasnotifications">
+                <span class="icon-bg">
+                    <i class="fa fa-fw fa-envelope"></i>
+                </span>
+        </a>
+        <div class="dropdown-menu dropdown-alternate messages arrow">
+            <div class="dd-header">
+                <span>Messages</span>
+                <span><a href="#/">Settings</a></span>
+            </div>
+
+            <div class="scrollthis scroll-pane">
+                <ul class="scroll-content">
+                    <li ng-repeat="item in messages">
+                        <a href>
+                            <img class="msg-avatar" ng-src="{{item.thumb}}" alt="avatar" />
+                            <div class="msg-content">
+                                <span class="name">{{item.name}}</span>
+                                <span class="msg">{{item.message}}</span>
+                            </div>
+                            <span class="msg-time">{{item.time}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dd-footer"><a href="#">View all messages</a></div>
+        </div>
+    </li>
+
+
+
+    <li class="dropdown toolbar-icon-bg">
+        <a href="#" class="dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-user"></i></span></a>
+        <ul class="dropdown-menu userinfo arrow">
+            <li><a href="#"><span class="pull-left">Profile</span> <span class="badge badge-info">80%</span></a></li>
+            <li><a href="#"><span class="pull-left">Account</span> <i class="pull-right fa fa-user"></i></a></li>
+            <li><a href="#"><span class="pull-left">Settings</span> <i class="pull-right fa fa-cog"></i></a></li>
+            <li class="divider"></li>
+            <li><a href="#"><span class="pull-left">Earnings</span> <i class="pull-right fa fa-line-chart"></i></a></li>
+            <li><a href="#"><span class="pull-left">Statement</span> <i class="pull-right fa fa-list-alt"></i></a></li>
+            <li><a href="#"><span class="pull-left">Withdrawals</span> <i class="pull-right fa fa-dollar"></i></a></li>
+            <li class="divider"></li>
+            <li><a href="#"><span class="pull-left">Sign Out</span> <i class="pull-right fa fa-sign-out"></i></a></li>
+        </ul>
+    </li>
+
+</ul>
+
+</header>
+
+<!-- /HEADER -->
+<!--
+<head>
+    <link rel="icon" type="image/png" href="src/images/logo.png" />
+    <meta charset="utf-8">
+    <title>{{name}}</title>
+    <meta name="description" content="mobile first, app, web app, responsive, admin dashboard, flat, flat ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    &lt;!&ndash;[if lt IE 9]>
+    <script src="src/js/ie/respond.min.js"></script>
+    <script src="src/js/ie/html5.js"></script>
+    <script src="src/js/ie/excanvas.js"></script>
+    <![endif]&ndash;&gt;
+</head>
+<body>
+&lt;!&ndash; header &ndash;&gt;
+<header id="header" class="navbar" style="position:fixed !important;width:99%">
+    <ul class="nav navbar-nav navbar-avatar pull-right" data-ng-if="loggedUser" style="margin-right:-14px !important">
+        <li class="dropdown ">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <span class="hidden-xs-only" style="font-size:14px;color:black;">{{loggedUser.name}}</span>
+                <span class="thumb-small avatar inline"><img data-ng-src="{{profileUrl}}" alt="Profile" class="img-circle"></span>
+                <b class="caret hidden-xs-only"></b>
+            </a>
+            <ul class="dropdown-menu pull-right dropdown-perfil">
+                <li><a href="#">Settings</a></li>
+                <li><a href="#!/profile">Profile</a></li>
+                <li><a href="#"></span>Notifications</a></li>
+                <li class="divider"></li>
+                <li><a href="logout">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+    <a data-ng-show="loggedUser"  id="toggle1" type="button" class="pull-left visible-xs" data-ng-click="toggleButton1()"><span></span></a>
+
+    <div  id="logo" class="navbar-brand" style="margin-left: -31px;"><a class="pull-left hidden-xs" type="button" href="#!/"><img class="pull-left" id="img" src="src/images/logo.png" style="margin-left: 40px" ></a></div>
+
+    <div style="margin-top: -37px">
+        <form class="navbar-form pull-left shift" action="" data-toggle="shift:appendTo" data-target=".nav-primary">
+
+
+        </form>
+        <a  data-ng-hide="loggedUser" id="toggle" type="button" class="pull-right" data-ng-click="toggleButton()"><span></span></a>
+        <div id="menu" data-ng-hide="loggedUser" style="margin-left: 87%;">
+            <ul>
+                <li class="tog"><a data-ng-click="openLoginModal()">Iniciar Sesión &nbsp;<i class="fa fa-sign-in"></i></a></li>
+                <li><a data-ng-click="openRegisterModal()">Registrarse &nbsp;<i class="fa fa-user"></i></a></li>
+            </ul>
+        </div>
+        &lt;!&ndash;<a class="btn btn-primary pull-right" style="margin-right:5px;background-color:black;" data-ng-click="openLoginModal()" data-ng-hide="loggedUser">Iniciar Sesion</a>
+        <a class="btn btn-primary pull-right" style="margin-right:15px;padding-right:22px;padding-left:22px;" data-ng-click="openRegisterModal()" data-ng-hide="loggedUser">Registrate</a>&ndash;&gt;
+    </div>
+
+
+
+
+
+</header>
+-->

@@ -1,0 +1,49 @@
+<div ng-hide="usuario">
+    <section id="content">
+        <div class="main padder">
+            <div class="row">
+                <div class="">
+                    <section class="">
+                        <header class="panel-heading text-center">
+                            <a class="pull-right cr-pointer fa fa-lg fa-times" data-ng-click="close()"></a>
+                            <h2><i class="fa fa-plus-square"></i> Registro usuarios</h2>
+                        </header>
+                        <form name="registerClientForm" class="panel-body">
+                            <div class="block">
+                                <center><label>Ingresa tu Nombre</label></center>
+                                <input name="nombre" id="formulario" type="text" placeholder="Nombre" class="form-control" data-ng-model="userName" data-toggle="tooltip" data-placement="top" title="Ingresar su nombre para su cuenta." required>
+                            </div>
+                            <div class="block">
+                                <center><label>Ingresa tu Apellido</label></center>
+                                <input name="apellido" id="formulario" type="text" placeholder="Apellido" class="form-control" data-ng-model="userSurname" data-toggle="tooltip" data-placement="top" title="Ingresar su apellido para su cuenta." required>
+                            </div>
+                           <div class="block">
+                                <center><label>Ingresa tu email</label></center>
+                                <input name="email" id="formulario" type="email" placeholder="ejemplo@ejemplo.com" class="form-control" data-ng-model="userEmail" data-toggle="tooltip" data-placement="top" title="Ingresar un email para su cuenta." required>
+                                <center><p ng-show="registerClientForm.email.$invalid && !registerClientForm.email.$pristine" class="error-block">Ingrese un email válido.</p></center>
+                            </div>
+                            <div class="block">
+                                <center><label>Ingresa tu telefono (Opcional)</label></center>
+                                <input name="phone" id="formulario" type="tel" placeholder="44641256" class="form-control" data-ng-model="userPhone" data-toggle="tooltip" data-placement="top" title="Ingresar un telefono para su cuenta." >
+                            </div>
+                            <div class="block">
+                                <center><label>Elija una contraseña</label></center>
+                                <input name="psw" id="formulario" type="password" id="inputPassword" placeholder="Contraseña" class="form-control" data-ng-model="userPassword" ng-minlength="4" ng-maxlength="22" data-toggle="tooltip" data-placement="top" title="Ingresar una contraseña que contenga entre 4 y 22 caracteres." required>
+                                <center><p ng-show="registerClientForm.psw.$error.minlength" class="error-block">La contraseña ingresada es demasiado corta.</p></center>
+                                <center><p ng-show="registerClientForm.psw.$error.maxlength" class="error-block">La contraseña ingresada es demasiado larga.</p></center>
+                            </div>
+                            <div class="checkbox">
+                                <left><label>
+                                    <input type="checkbox" id="checkBox" data-ng-model="checkRegister"> Acepto los <a href="" class="text-table" data-toggle="modal" data-target="#basicModal">términos y condiciones.</a>
+                                </label></left>
+                            </div>
+                            <br>
+                            <center><button id="registerButton" class="btn btn-primary"  ng-hide="registerClientForm.$invalid || registerClientForm.$prestine" data-ng-click="registroUser()">Registrarse</button></center>
+                            <center><button id="registerButton2" class="btn btn-primary" ng-show="registerClientForm.$invalid || registerClientForm.$prestine" disabled style="background-color:grey; ">Registrar</button></center><br>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

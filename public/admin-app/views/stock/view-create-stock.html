@@ -1,0 +1,64 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-body">
+		<a data-ng-click="close();"><i style="margin-right:-13px;margin-top:-12px; " class="pull-right cr-pointer fa fa-lg fa-times" ></i></a>
+		<br>
+		<center><h2 id="vehicleTitle" style="margin-top:-8px">Agregar vehiculo</h2></center>
+		<hr style="width:auto;margin-left:4px">
+		<a data-ng-click="currentTab = 0;"><h4 id="data" style="display:inline;margin-left:30px; color:black" data-ng-class="{'color-grey': currentTab == 1}" >Datos</h4></a>
+		<a data-ng-click="currentTab = 1;"><h4 id="features" style="display:inline; margin-left:10px; color:#E6E6E6; " data-ng-class="{'color-black': currentTab == 1}" >Caracteristicas</h4></a>
+		<br><br>
+		<div data-ng-show="currentTab == 1" class="well" style="height:413px !important; width:auto;margin-left:28px;background-color:#ffffff ">
+			<div ng-repeat="caracteristica  in caracteristicas"  class="row">
+				<label><input type="checkbox" data-ng-model="selected" data-ng-change="changeFeatures($index,selected)" > {{caracteristica.name}}</label>
+				<br>
+			</div>
+		</div>
+		<div data-ng-show="currentTab == 0" class="well" style="height:413px !important; width:auto;margin-left:28px;background-color:#ffffff">
+			<div name="form" data-ng-submit="tableParams.reload();">
+				<div class="row">
+					<div class="col-xs-4 form-group">
+						<label for="dominio">Dominio*</label>
+						<input id="dominio" class="form-control" type="text" name="dominio" data-ng-model="object.dominio" required autofocus />
+						<label for="marca">Marca*</label>
+						<input id="marca" class="form-control" type="text" name="marca" data-ng-model="object.marca" required autofocus />
+						<label for="version">Version</label>
+						<input id="version" class="form-control" type="text" name="version" data-ng-model="object.version"  />
+						<label for="combustible">Combustible</label>
+						<select  id="combustible" class="form-control" data-ng-model="object.combustible"  data-ui-select2>
+							<option data-ng-repeat="combustible in combustibles | orderBy: 'name'" value="{{combustible.id}}">{{combustible.name}} </option>
+						</select>
+						<label for="color">Color</label>
+						<input id="color" class="form-control" type="text" name="color" data-ng-model="object.color" />
+						<label for="chasis">N° de chasis</label>
+						<input id="chasis" class="form-control" type="text" name="chasis" data-ng-model="object.chasis" />
+
+					</div>
+					<div class="col-xs-4 form-group" style="margin-left:20%">
+						<label for="year">Año*</label>
+						<input id="year" class="form-control" type="text" name="year" data-ng-model="object.year" required autofocus />
+						<label for="modelo">Modelo*</label>
+						<input id="modelo" class="form-control" type="text" name="modelo" data-ng-model="object.modelo" required autofocus />
+						<label for="tipo">Tipo*</label>
+						<select   id="tipo" class="form-control" data-ng-model="object.tipo"  data-ui-select2 required autofocus>
+							<option data-ng-repeat="tipo in tipos | orderBy: 'name'" value="{{tipo.id}}">{{tipo.name}} </option>
+						</select>
+						<label for="kilometros">Kilómetros</label>
+						<input id="kilometros" class="form-control" type="text" name="kilometros" data-ng-model="object.kilometros"  />
+						<label for="titular">Titular</label>
+						<input id="titular" class="form-control" type="text" name="titular" data-ng-model="object.titular"  />
+						<label for="precio">Precio</label>
+						<input id="precio" class="form-control" type="text" name="precio" data-ng-model="object.precio" />
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<br>
+	<div class="col-md-13 pull-right text-right " style="margin-top:-40px;margin-right:31px !important">
+		<a data-ng-click="close();" class="btn btn-warning" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="form.$invalid" class="btn btn-success" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+
+</form>

@@ -1,0 +1,35 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id ? 'Editar':'Agregar'}} perfil</h3>
+  </div>
+	<div class="modal-body">
+    <tabset tab-theme="orange">
+      <tab heading="Datos">
+        <div class="row">
+          <div id="profiles-modal-spinner" style="margin-top: -20px !important;margin-bottom:30px" class="container-fluid spinner"></div>
+          <div data-ng-show="!loading">
+            <div class="col-sm-12 col-xs-12 form-group">
+              <label for="admin">Admin <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="admin" class="form-control" name="admin" data-ng-model="object.admin" required autofocus  >
+                <option value="0">No</option>
+                <option value="1">Sí</option>
+              </select>
+              <label for="name">Nombre <small class="text-muted">(Obligatorio)</small></label>
+              <input data-ng-disabled="ver" id="name" class="form-control" type="text" name="name" data-ng-model="object.name" required/>
+              <label for="description">Descripción <small class="text-muted">(Obligatorio)</small></label>
+              <textarea data-ng-disabled="ver" rows="4" cols="50" ng-trim="false" maxlength="255" data-ng-minLength="1" id="description" class="form-control"  name="description" data-ng-model="object.description" placeholder="Descripción" required>
+              </textarea>
+              <br>
+              <span style="color:#a2a2a2;font-size:14px;" class="form-help pull-right">{{255-object.description.length}}</span>
+              <br>
+            </div>
+          </div>
+        </div>
+      </tab>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close()" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="ver || form.$invalid" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

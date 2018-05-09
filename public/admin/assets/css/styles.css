@@ -1,0 +1,313 @@
+.white-button{
+    color:white;
+    border-color:white;
+    border-radius:2px;
+    background-color:#3b5998;
+}
+
+.question {
+    width:100%;
+    height:auto;
+    padding:5px;
+    color: #455a64;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+.answer {
+    width:100%;
+    height:auto;
+    padding:5px;
+    color: #455a64;
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin-bottom:15px
+}
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:100%;
+    height:300px;
+    margin-bottom:10px;
+}
+
+body:not(.sidebar-collapsed) ul.acc-menu li ul {
+    display: block!important;
+}
+
+.white-button:hover{
+    color:#3b5998;
+    border-color:#3b5998;
+    border-radius:2px;
+    background-color:white;
+}
+
+.opacity-active{
+    opacity: 1;
+}
+
+.opacity-inactive{
+    opacity: 0.3;
+}
+
+.vehicle-list{
+    width:100%;
+    height:auto;
+    margin-top:40px;
+    padding:0;
+    list-style-type: none;
+}
+
+.vehicle-list-item{
+    width:100%;
+    height:300px;
+    background: #fff;
+    padding: 0;
+    margin-bottom: 20px;
+    border: 2px solid #3b5998;
+    border-radius:2px;
+}
+
+.vehicle-list-item-data-container{
+    background-color: white;
+    display:inline-block;
+}
+
+.vehicle-list-item-data-container div{
+    display:inline-block;
+    margin: 0 16px;
+}
+
+.data-gallery > label{
+    font-weight: bold;
+    color: #232323;
+    display: block;
+}
+
+.data-gallery > span{
+    display: block;
+    margin-bottom: 8px;
+    margin-top:-6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vehicle-list-item-image-portales{
+    margin:2px 5px;
+    float:left;
+    border-radius: 5px;
+    width:32px;
+    height:auto;
+}
+
+.vehicle-list-item-image-container img{
+    height: 196px;
+    width:auto;
+}
+
+.vehicle-list-item-buttons-container{
+    float: right;
+    width:50px;
+    height: 296px;
+    padding: 10px 10px;
+    text-align: center;
+    background-color: #3b5998;
+}
+
+.image-gallery{
+    width:100%;
+    height:auto;
+    padding:3px;
+    border:1px solid #3b5998;
+    border-radius: 5px;
+}
+
+.gallery-button-left{
+    margin:6px -4px 0 0;
+    color: #3b5998;
+    text-decoration:none;
+    padding:3px 12px 3px 12px !important;
+    border-bottom: 1px solid #3b5998;
+    border-left: 1px solid #3b5998;
+    border-right: 1px solid #3b5998;
+    border-bottom-left-radius: 10px;
+}
+
+.gallery-button-left:hover{
+    margin:6px -4px 0 0;
+    color: white;
+    background-color: #3b5998;
+    text-decoration:none;
+    padding:3px 12px 3px 12px !important;
+    border-bottom: 1px solid #3b5998;
+    border-left: 1px solid #3b5998;
+    border-right: 1px solid #3b5998;
+    border-bottom-left-radius: 10px;
+}
+
+.gallery-button-left.active{
+    margin:6px -4px 0 0;
+    color: white;
+    background-color: #3b5998;
+    text-decoration:none;
+    padding:3px 12px 3px 12px !important;
+    border-bottom: 1px solid #3b5998;
+    border-left: 1px solid #3b5998;
+    border-right: 1px solid #3b5998;
+    border-bottom-left-radius: 10px;
+}
+
+.gallery-button-right{
+    margin:6px 0 0 -4px;
+    color: #3b5998;
+    text-decoration:none;
+    padding:3px 15px 3px 16px !important;
+    border-bottom: 1px solid #3b5998;
+    border-right: 1px solid #3b5998;
+    border-bottom-right-radius: 10px;
+}
+
+.gallery-button-right:hover{
+    margin:6px 0 0 -4px;
+    color: white;
+    background-color: #3b5998;
+    text-decoration:none;
+    padding:3px 15px 3px 16px !important;
+    border-bottom: 1px solid #3b5998;
+    border-right: 1px solid #3b5998;
+    border-bottom-right-radius: 10px;
+}
+
+
+
+.color-fb,
+.color-fb-alt:hover{
+    color: #FFF;
+    background-color: #3B5998;
+    border: 1px solid #3B5998;
+    border-radius:0 !important;
+}
+
+.color-fb-alt{
+    color: #3b5998;
+    background-color: rgba(255,255,255,0);
+    border: 1px solid #3B5998;
+    border-radius:0 !important;
+}
+
+.selectize-control > .selectize-dropdown {
+    top: 36px;
+}
+
+.spinner{
+    margin-top:50px;
+}
+
+.publicacion {
+    background-color: #ffffff;
+    border: 2px #fcfcfc;
+    padding:5px;
+    width:115px;
+    height:auto;
+}
+
+.button.blue {
+    background: rgba(0, 0, 0, 0) linear-gradient(#4055a5, #283077) repeat scroll 0 0 !important;
+    border: 1px solid #2c3176;
+    box-shadow: 0 1px 0 rgba(186, 206, 255, 0.6) inset;
+}
+.button.medium, a.button-slide.medium {
+    font-size: 16px;
+    padding: 7px 14px;
+}
+.ch-form-actions input {
+    letter-spacing: normal;
+}
+.button, .wpcf7 .button, #comment-form #submit, a.comment-reply-link, a.comment-reply-link:visited {
+}
+.button.grey, .button-slide.grey, .button.gray, .button-slide.gray, .button {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #4e4e4e, #353535) repeat scroll 0 0 !important;
+    border: 1px solid #313131;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+}
+
+a.button, a.button-slide, .button {
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif !important;
+    letter-spacing: -1px;
+    line-height: normal;
+    margin: 0 0 10px;
+    text-decoration: none;
+}
+
+#publishButton{
+    background: rgba(0, 0, 0, 0) linear-gradient(#4055a5, #283077) repeat scroll 0 0 !important;
+    border: 1px solid #2c4176;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 rgba(186, 206, 255, 0.6) inset;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Arial,helvetica,sans-serif !important;
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: normal;
+    margin: 0 200px 10px !important;
+    padding: 7px 14px;
+    text-decoration: none;
+}
+
+
+
+.sample-show-hide {
+    padding:10px;
+    background:white;
+}
+
+.sample-show-hide {
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.7s;
+}
+
+.sample-show-hide.ng-hide {
+    opacity:0;
+}
+
+.dealer-header{
+    border: 1px solid;
+    font-weight: bold;
+    margin-top: 8px;
+    padding: 5px;
+}
+.vincular-img{
+    width: 100px;
+    height: auto;
+    border: 2px solid #5873cb;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: white;
+}
+.vincular-button{
+    background-color: #5873cb;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 5px 10px;
+    margin: 20px 30px 0 30px;
+    border-radius: 5px;
+}
+.vincular-button:hover{
+    background-color: rgba(95, 131, 226, 0.76);
+}
+.vincular-p{
+    margin-top: 10px;
+    padding-right: 110px;
+}
+

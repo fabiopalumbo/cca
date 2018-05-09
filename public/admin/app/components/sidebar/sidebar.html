@@ -1,0 +1,33 @@
+  <div ng-controller="NavigationController" class="static-sidebar" role="navigation">
+    <div class="sidebar" ng-cloak>
+      <div class="widget stay-on-collapse" id="widget-welcomebox">
+        <div class="widget-body welcome-box tabular">
+          <div class="tabular-row" style="cursor:pointer" data-ng-click="$root.redirectTo('/myprofile')">
+            <div class="tabular-cell welcome-avatar">
+              <a><img ng-src="{{loggedUser.cropped_image_url ? loggedUser.cropped_image_url : 'assets/img/imagen-sin-profile.png'}}" class="avatar"></a>
+            </div>
+            <div class="tabular-cell welcome-options">
+              <span class="welcome-text" style="color:#bdbdbd!important">Bienvenido,</span>
+              <a class="name" style="color:white!important">{{loggedUser.first_name}}&nbsp;{{loggedUser.last_name}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="widget stay-on-collapse">
+        <nav class="widget-body">
+          <ul  class="acc-menu" sticky-scroll="40">
+            <li ng-repeat="item in menu"
+                ng-class="{ hasChild: (item.children!==undefined),
+                                                    active: item.selected,
+                                                      open: (item.children!==undefined) && item.open,
+                                           'nav-separator': item.separator==true,
+                                            'search-focus': (searchQuery.length>0 && item.selected) }"
+                ng-show="!(searchQuery.length && !item.selected)"
+                ng-include="'templates/nav_renderer.html'"
+                    ></li>
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+  </div> <!-- #sidebar-->

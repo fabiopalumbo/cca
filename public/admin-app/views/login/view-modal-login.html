@@ -1,0 +1,23 @@
+<form id="login-modal" name="form"  novalidate data-submit-once="login()" class="login-form">
+	<div class="modal-body">
+        <a class="pull-right cr-pointer fa fa-lg fa-times" data-ng-click="modalInstance.dismiss()"></a>
+        <h4 class="text-center">LOGIN</h4>
+        <div class="form-group">
+			<input type="email" class="form-control" name="email" data-ng-model="email" placeholder="Email" required autofocus>
+		</div>
+		<div class="form-group">
+			<input type="{{input}}" class="form-control" name="password" data-ng-model="password" placeholder="Contraseña" required>
+		</div>
+
+        <label>
+            <input id='checkBOX'  type='checkbox' name='testName' data-ng-model="loginCheck" data-ng-change="change()"> Mostrar contraseña
+        </label>
+        <div class="form-group">
+            <center><button  class="btn btn-primary" type="submit" data-ng-click="login(loginCheck)">Entrar</button></center>
+        </div>
+        <div class="form-group text-center olvide-contrasenia-container">
+            <a class="olvide-contrasenia-text" href='' data-ng-click="security.closeLogin(); openPasswordModal()">¿Olvidaste tu contraseña?</a>
+        </div>
+		<div class="alert" data-ng-class="authError.class" data-ng-show="authError.message">{{authError.message}}</div>
+	</div>
+</form>

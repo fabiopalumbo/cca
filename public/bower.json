@@ -1,0 +1,33 @@
+{
+    "name": "cca-fonsoft",
+    "version": "0.1.0",
+    "authors": [
+        "Loopear Software Factory <loopear@gmail.com>"
+    ],
+    "description": "Dependencias cca-fonsoft",
+    "keywords": [
+        "cca-fonsoft"
+    ],
+    "license": "MIT",
+    "homepage": "www.cca-fonsoft.dev",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "bower_components"
+    ],
+    "dependencies": {
+        "angular": "~1.4.x",
+        "angular-bootstrap":"~0.11.0",
+        "angular-growl": "~0.4.x",
+        "angular-route": "~1.4.x",
+        "bootstrap": "~3.3.x",
+        "font-awesome": "~4.2.0",
+        "jquery": "~2.1.1",
+        "restangular": "~1.4.0",
+        "underscore": "~1.6.0"
+    },
+    "resolutions": {
+        "jquery": "~2.1.4",
+        "angular": "~1.4.8"
+    }
+}

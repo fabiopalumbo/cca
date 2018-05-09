@@ -1,0 +1,290 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id ? 'Editar':'Agregar'}} vehiculo</h3>
+  </div>
+	<div data-ng-show="showModalBody" class="modal-body">
+    <tabset tab-theme="orange">
+      <tab heading="Datos">
+        <div data-ng-submit="tableParams.reload();">
+          <div class="row">
+            <div class="col-sm-6 col-xs-12 form-group">
+              <label for="sale_condition">Condición <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="sale_condition" class="form-control" name="sale_condition" data-ng-model="object.sale_condition" data-ng-change="filterKMs(object.sale_condition)" required autofocus  >
+                <option data-ng-repeat="condition in conditions | orderBy: 'name'" value="{{condition.val}}">{{condition.name}} </option>
+              </select>
+              <label for="domain">Dominio <small class="text-muted">(Obligatorio)</small></label>
+              <input data-ng-disabled="ver" id="domain" class="form-control" type="text" name="domain" data-ng-model="object.domain" required/>
+              <label for="type">Tipo <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="type" class="form-control" name="type" data-ng-model="object.type" required>
+                <option data-ng-repeat="type in types | orderBy: 'name'" value="{{type.id}}">{{type.name}} </option>
+              </select>
+              <label for="brand">Marca <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="brand" class="form-control" name="brand" data-ng-model="object.brand_id" data-ng-change="cleanVersions()" required  >
+                <option data-ng-repeat="brand in brands | filter:{type_vehicle_id : object.type} | orderBy: 'name'" value="{{::brand.id}}" ng-selected="brand.id == $parent.object.brand_id">{{::brand.name}} </option>
+              </select>
+              <label for="model">Modelo <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="model" class="form-control" name="model" data-ng-model="object.model_id" data-ng-change="filterVersions(object.model_id)"  required  >
+                <option data-ng-repeat="model in models | orderBy: 'name'" value="{{::model.id}} " ng-selected="model.id == $parent.object.model_id" ng-show="model.type_vehicle_brand_id == $parent.object.brand_id">{{model.name}}</option>
+              </select>
+              <label data-ng-show="showVersions" for="version">Version</label>
+              <select data-ng-disabled="ver" data-ng-show="showVersions" id="version" class="form-control" name="version" data-ng-model="object.version_id" >
+                <option data-ng-repeat="version in versions | orderBy: 'name'" value="{{version.id}}">{{version.name}} </option>
+              </select>
+              <label for="year">Año <small class="text-muted">(Obligatorio)</small></label>
+              <input data-ng-disabled="ver" id="year" class="form-control" type="text" name="year" data-ng-model="object.year" required/>
+             <label for="chasis_number">N° de chasis</label>
+              <input data-ng-disabled="ver" id="chasis_number" class="form-control" type="text" name="chasis_number" data-ng-model="object.chasis_number" />
+              <label for="direction">Dirección</label>
+              <select data-ng-disabled="ver" id="direction" class="form-control" name="direction" data-ng-model="object.direction"   >
+                <option data-ng-repeat="direction in directions | orderBy: 'name'" value="{{direction.val}}">{{direction.name}} </option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-xs-12 form-group">
+              <label for="doors">Cant. de puertas <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="doors" class="form-control" name="doors" data-ng-model="object.doors" required>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <label for="fuel">Combustible <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="fuel" class="form-control" data-ng-model="object.type_vehicle_fuel_id"   >
+                <option data-ng-repeat="fuel in fuels | orderBy: 'name'" value="{{fuel.id}}">{{fuel.name}} </option>
+              </select>
+              <label for="color">Color <small class="text-muted">(Obligatorio)</small></label>
+              <select data-ng-disabled="ver" id="color" class="form-control" data-ng-model="object.color_id" required >
+                <option data-ng-repeat="color in colors | orderBy: 'name'" value="{{color.id}}">{{color.name}}</option>
+              </select>
+             <label for="kilometers">Kilómetros</label>
+              <input data-ng-disabled="ver" id="kilometers" class="form-control" type="text" name="kilometers" data-ng-model="object.kilometers"  />
+              <label for="owner">Titular</label>
+              <input data-ng-disabled="ver" id="owner" class="form-control" type="text" name="owner" data-ng-model="object.owner"  />
+              <div class="col-sm-9 col-xs-12" style="padding-left:0;">
+                <label for="price">Precio <small class="text-muted">(Obligatorio)</small></label>
+                <input data-ng-disabled="ver" id="price" class="form-control col-sm-7" type="text" name="price" data-ng-pattern="/^[0-9]*$/" data-ng-model="object.price" required/>
+              </div>
+              <div class="col-sm-3 col-xs-12" style="padding-left:0;">
+                <label for="currency">Moneda</label>
+                <select data-ng-disabled="ver" id="currency" class="form-control col-sm-4" name="currency" data-ng-model="object.currency_id" required  >
+                  <option  data-ng-repeat="currency in currencies | orderBy: 'name'" value="{{currency.id}}">{{currency.name}} </option>
+                </select>
+              </div>
+              <label for="transmission">Transmisión</label>
+              <select data-ng-disabled="ver" id="transmission" class="form-control" name="transmission" data-ng-model="object.transmission"   >
+                <option data-ng-repeat="transmission in transmissions | orderBy: 'name'" value="{{transmission.val}}">{{transmission.name}} </option>
+              </select>
+              <label for="heating">Climatización</label>
+              <select data-ng-disabled="ver" id="heating" class="form-control" name="heating" data-ng-model="object.heating"   >
+                <option data-ng-repeat="heating in heatings | orderBy: 'name'" value="{{heating.val}}">{{heating.name}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab heading="Notas" disabled="!vehicleId"  data-toggle="tooltip" title="Debes crear el vehiculo para poder subir notas">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="note"></label>
+            <textarea data-ng-disabled="ver" rows="4" cols="50" ng-trim="false" maxlength="1000" data-ng-minLength="1" id="note" class="form-control"  name="note" data-ng-model="object.note" placeholder="Aclaraciones para el vehiculo">
+            </textarea>
+            <!--contador-->
+            <br>
+            <span style="color:#a2a2a2;font-size:14px;" class="form-help pull-right">{{1000-object.note.length}}</span>
+          </div>
+          <br>
+        </div>
+      </tab>
+      <tab heading="Fotos"  disabled="!vehicleId" data-toggle="tooltip" title="Debes crear el vehiculo para poder subir fotos" data-ng-click="getVehiclesImages()">
+        <div data-ng-if="vehicleId != null" class="row">
+          <div data-ng-if="!ver" flow-init="{target: '/api/dealer/'+currentDealer.id+'/vehicle/'+vehicleId+'/image/upload', testChunks: false, permanentErrors: [415, 500, 501]}"
+               flow-files-submitted="$flow.upload()"
+               flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
+               flow-complete="cleanFlowAndReloadImages($flow)">
+            <div class="drop" flow-drop ng-class="dropClass">
+              <span class="btn btn-default" flow-btn>Subir imagenes</span>
+              <span class="btn btn-default" flow-btn flow-directory ng-show="$flow.supportDirectory">Subir carpetas de imagenes</span>
+              <b>O</b>
+              Arrastra tus imagenes hasta el recuadro
+            </div>
+            <br/>
+            <div>
+              <div ng-repeat="file in $flow.files" class="gallery-box">
+                <span class="title">{{file.name}}</span>
+                <div class="thumbnail" ng-show="$flow.files.length">
+                </div>
+                <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
+                  <div class="progress-bar" role="progressbar"
+                       aria-valuenow="{{file.progress() * 100}}"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       ng-style="{width: (file.progress() * 100) + '%'}">
+                    <span class="sr-only">{{file.progress()}}% Complete</span>
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="vehicles-images-spinner" style="margin-top: -20px !important;margin-bottom:30px" class="container-fluid spinner"></div>
+            <ul class="col-sm-12">
+              <li style="list-style:none" data-ng-show="vehiclesImages.length == 0">
+                <pre>No tienes imágenes asociadas a este vehículo.</pre>
+              </li>
+              <li style="list-style:none" data-ng-hide="spinning" data-ng-repeat="vehicleImage in vehiclesImages" class="col-sm-4">
+                <div>
+                  <!--<img class="image-gallery" src="assets/img/imagen-sin-auto.png">-->
+                  <img class="image-gallery" data-ng-src="{{vehicleImage.url}}"/>
+                </div>
+                <div style="width:100%;height:auto;text-align:center;margin:2px 0 20px 0">
+                  <a data-ng-disabled="ver" class="gallery-button-left" data-ng-class="{'active': vehicleImage.id == highlighted_id}" data-ng-click="highlightImage(vehicleImage.id)"><i class="fa fa-star"></i></a>
+                  <a data-ng-disabled="ver" class="gallery-button-right" data-ng-click="removeImage(vehicleImage.id)"><i class="fa fa-trash"></i></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </tab>
+      <tab disabled="vehicleId == null || ver" heading="Características">
+        <div class="row">
+          <div data-ng-repeat="feature in featuresEdit | filter:{type_vehicle_id : object.type} | orderBy: id" class="col-sm-12">
+	          <p class="col-md-12" style="text-align:center;font-weight:bold;text-decoration:underline;">{{feature.name}}</p>
+	          <div data-ng-repeat="child in feature.children | orderBy: 'name'" class="col-sm-4">
+		          <label class="icheck-label">
+			          <div class="icheckbox_flat-blue checked" style="position: relative;">
+				          <input icheck="flat-blue" type="checkbox" data-ng-model="child.val">
+				          <ins class="iCheck-helper"></ins>
+			          </div>
+			          {{child.name}}
+		          </label>
+	          </div>
+            <br>
+          </div>
+        </div>
+      </tab>
+      <tab heading="Publicaciones"  data-toggle="tooltip" title="Debes crear el vehiculo para poder publicarlo" disabled="!vehicleId || ver">
+        <div class="col-sm-12">
+          <a class="btn btn-midnightblue-alt pull-right" data-ng-click="verifyState()" style="margin-top:-15px;text-align:left;" data-tooltip="Actualiza el estado de las publicaciones"><i class="fa fa-refresh fa-lg"></i></a>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row" style="padding-bottom:15px">
+              <div class="text-center">
+                <div class="publicacion" data-tooltip="Mercado Libre" style="display: inline-block;">
+                  <a data-ng-click="publish('mercadolibre');"><img style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-ml.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.mercadolibre">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.mercadolibre && !MlInState">Sin Publicar</a>
+                  <a class="btn btn-warning btn-label" style="width: 90px;" data-ng-show="MlInState">En proceso</a>
+                </div>
+                <!--<div class="publicacion"  data-tooltip="Red NuestrosAutos" style="display: inline-block;">-->
+                  <!--<a data-ng-click="publish('nuestrosautos');"><img style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-na.png"></a>-->
+                  <!--<a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.nuestrosAutos">Publicado</a>-->
+                  <!--<a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.nuestrosAutos">Sin Publicar</a>-->
+                <!--</div>-->
+                <div class="publicacion" data-tooltip="deMotores" style="display: inline-block;">
+                  <a data-ng-click="publishDM();"><img class="" style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-dm.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.deMotores">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.deMotores">Sin Publicar</a>
+                </div>
+                <div class="publicacion"  data-tooltip="AutoCosmos" style="display: inline-block;">
+                  <a data-ng-click="publish('autocosmos');"><img style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-ac.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.autoCosmos">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.autoCosmos">Sin Publicar</a>
+                </div>
+                <div class="publicacion "  data-tooltip="Facebook" style="display: inline-block;">
+                  <a data-ng-click="publish('facebook');"><img style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-fc.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.facebook">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.facebook">Sin Publicar</a>
+                </div>
+                <div class="publicacion "  data-tooltip="deAutos" style="display: inline-block;">
+                  <a data-ng-click="publishDA();"><img style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-da.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.deAutos">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.deAutos">Sin Publicar</a>
+                </div>
+                <div class="publicacion "  data-tooltip="OLX" style="display: inline-block;">
+                  <a data-ng-click="publish('olx');"><img class="opacity-inactive" style="border:2px solid #3b5998;width:auto;height:90px;border-radius:5px" src="assets/img/portales/portal-olx.png"></a>
+                  <a class="btn btn-success btn-label" style="width: 90px;" data-ng-show="publishItems.olx">Publicado</a>
+                  <a class="btn btn-danger btn-label" style="width: 90px;" data-ng-show="!publishItems.olx">Sin Publicar</a>
+                </div>
+              </div>
+              <div id="vehicles-publish-spinner" style="margin-top: -20px !important;margin-bottom:30px" class="container-fluid spinner"></div>
+              <div data-ng-show="items.ML">
+                <h4 style="display:-moz-inline-stack">El vehiculo ya se encuentra publicado en MercadoLibre.</h4><br>
+                <button  class="btn btn-midnightblue-alt" data-ng-click="deleteListingType(object.item_id);"><i class="fa fa-fw fa-ban"></i> Cancelar publicacion</button>
+              </div>
+              <div data-ng-show="items.NA">
+                <h4 style="display:-moz-inline-stack" >El vehiculo ya se encuentra compartido en Nuestros Autos.</h4><br>
+                <!--<button  class="btn btn-midnightblue-alt" data-ng-click="deleteShare();"><i class="fa fa-fw fa-ban"></i> Dejar de compartir</button>-->
+              </div>
+              <div data-ng-show="items.FB">
+                <h4 style="display:-moz-inline-stack" >El vehiculo ya se encuentra compartido en Facebook.</h4><br>
+                <button  class="btn btn-midnightblue-alt" data-ng-click="deleteShareFacebook();"><i class="fa fa-fw fa-ban"></i> Dejar de compartir</button>
+              </div>
+              <div data-ng-show="items.AC">
+                <h4 style="display:-moz-inline-stack" >El vehiculo ya se encuentra publicado en Autocosmos.</h4><br>
+                <button  class="btn btn-midnightblue-alt" data-ng-click="deleteAutocosmos();"><i class="fa fa-fw fa-ban"></i>Cancelar Publicacion</button>
+              </div>
+              <div data-ng-show="items.DA">
+                <h4 style="display:-moz-inline-stack" >El vehiculo ya se encuentra publicado en deAutos.</h4><br>
+                <button  class="btn btn-midnightblue-alt" data-ng-click="deleteDeautos();"><i class="fa fa-fw fa-ban"></i>Cancelar Publicacion</button>
+              </div>
+            </div>
+            <div class="row pricing-table-1-container pricing-indigo col-xs-12 sample-show-hide" data-ng-show="!firstMl">
+              <h4 style="color:#7b7b7b;font-family:Arial,helvetica,sans-serif !important;">Selecciona la categoria a publicar</h4>
+              <div class="col-md-3" data-ng-repeat="listingType in listingTypes">
+                <div class="pricing-box hover-effect">
+                  <div class="pricing-head">
+                    <h3 class="pricing-head-title">{{listingType.name}}</h3>
+                    <h4><i>$</i><i>{{listingType.price}}</i><span>por publicacion</span>
+                    </h4>
+                  </div>
+                  <div class="pricing-footer">
+                    <p style="height: 133px;">{{listingType.description}}</p>
+                    <a data-ng-click="setListingType(listingType.id);$parent.firstMl = true" class="btn btn-default btn-block">Elegir</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 form-group" data-ng-show="!firstDa" >
+              <div class="col-xs-12 form-group" style="padding:0">
+                <label for="username">Direccion de email: <small class="text-muted">(Obligatorio)</small></label>
+                <input id="username" class="form-control" type="text" name="username" data-ng-model="object.username" placeholder="Mail de inicio de sesion de deAutos" />
+                <label for="deautosPsw">Contrase&ntilde;a: <small class="text-muted">(Obligatorio)</small></label>
+                <input id="deautosPsw" class="form-control" type="password" name="deautosPsw" data-ng-model="object.deautosPsw" placeholder="Password de inicio de sesion de deAutos" />
+              </div>
+              <button  class="btn btn-midnightblue-alt" data-ng-click="publishDA()"><i class="fa fa-fw fa-save"></i> Publicar</button>
+            </div>
+            <div class="col-sm-6 col-xs-12 form-group" data-ng-show="!firstFb">
+              <label for="fbPages" style="color:#7b7b7b;font-family:Arial,helvetica,sans-serif !important;">Elija la pagina con la que desea publicar el vehiculo:</label>
+              <select id="fbPages" class="form-control" name="fbPages" data-ng-model="object.fbPage">
+                <option data-ng-repeat="page in userPages | orderBy: 'name'" value="{{page.page_id}}">{{page.name}}</option>
+              </select>
+              <div class="col-xs-12 form-group" style="padding-left:0;padding-top:10px;padding-right:0;color:#7b7b7b;font-family:Arial,helvetica,sans-serif !important">
+                <label for="note">Escriba a continuacion lo que desea publicar:</label>
+                <textarea  rows="4" cols="50" ng-trim="false" maxlength="1000" data-ng-minLength="1" id="pageNote" class="form-control"  name="note" data-ng-model="object.pageNote" placeholder="Escribe aqui">
+                </textarea>
+                <!--contador-->
+                <br>
+                <span style="color:#a2a2a2;font-size:14px;" class="form-help pull-right">{{1000-object.pageNote.length}}</span>
+              </div>
+              <button class="btn btn-midnightblue-alt" data-ng-click="publishFB()"><i class="fa fa-fw fa-share"></i> Publicar en Facebook</button>
+            </div>
+            <div class="col-sm-6 col-xs-12 form-group" data-ng-show="!firstFb">
+              <label style="color:#7b7b7b;font-family:Arial,helvetica,sans-serif !important;">
+                Copie y pegue lo que desee publicar:
+              </label>
+<pre>{{object.brand}} - {{object.model}} - {{object.version?object.version+'- ':''}}{{object.year}} - {{object.fuelName}} - {{object.kilometers}}km
+Precio: ${{object.price}}</pre>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button ng-show="saveCar" data-ng-disabled="form.$invalid" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+    <button ng-hide="saveCar" data-ng-disabled="ver" class="btn btn-success-alt" data-ng-click="save(form.$invalid)"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

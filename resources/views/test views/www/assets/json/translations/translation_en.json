@@ -1,0 +1,42 @@
+{
+  "LANGUAGE_TITLE":"English",
+  "LANGUAGE":"Languages",
+  "HELLO_WORLD": "Hello World!",
+  "REGISTER": "Register",
+  "LOG_IN": "Log In",
+  "LOG_OUT": "Log Out",
+  "CLOSE": "Close",
+  "VIEW":{
+    "LOGIN":{
+      "TITLE": "Sign In",
+      "USER": "user",
+      "EMAIL": "email",
+      "PASSWORD": "password",
+      "BUTTON": "Log In",
+      "CHECKBOX": "Show password",
+      "FIRST_TIME": "First time?",
+      "REGISTER": "Sign Up"
+    },
+    "REGISTER":{
+      "TITLE": "Register",
+      "USER": "user",
+      "PHONE": "phone (optional)",
+      "NAME": "name",
+      "SURNAME": "surname",
+      "EMAIL": "email",
+      "PASSWORD": "password",
+      "REPEAT_PASSWORD": "repeat password",
+      "BUTTON": "Sign Up",
+      "HAVE_ACCOUNT": "Already have an account?",
+      "LOGIN": "Sign In"
+    },
+    "HOME":{
+      "APP_TITTLE": "Mobile Applications",
+      "APP_INFO": "Experts in mobile aplications develop, working day to day in Loopear, to create the most robust, efficient and attractive applications of market. We have specialists dedicated to developing applications on different platforms: iOS, Android, BBOS, Windows Phone and more. We provide support throughout the lifetime of your application.",
+      "SOFT_TITTLE": "Custom Software",
+      "SOFT_INFO": "We offer software complete solutions for local, network or web environments that include analysis, design, develop and implementation for best suits your needs. Guarantee the operation of Web portals, the hosting in servers or platforms, organic SEO and the subsequent maintenance.",
+      "OUT_TITTLE": "Developer's OutSourcing",
+      "OUT_INFO": "Does your company have a need for specialized programmers to create, maintain or change any of your applications? Loopear has programmers, analyst, designers, DBAs and testers highly trained and updated, ready to join his project as fast as you need."
+    }
+  }
+}

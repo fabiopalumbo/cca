@@ -1,0 +1,39 @@
+<form id="register-modal" name="form"  class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="modalInstance.dismiss();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>Resolver Conflictos</h3>
+  </div>
+	<div data-ng-show="showModalBody" class="modal-body">
+      <div data-ng-submit="tableParams.reload();">
+          <div class="row">
+            <div class="col-sm-12 col-xs-12"><h5 class="col-sm-4 col-xs-4">Marca: {{brandShow}} </h5><h5 class="col-sm-4 col-xs-4"> Modelo: {{modelShow}} </h5><h5 class="col-sm-4 col-xs-4"> Version: {{versionShow}} </h5></div>
+            <h5>Se han dectectado conflictos a la hora de publicar en el portal seleccionado. Por favor, resuelva manualmente:</h5>
+            <div class="col-sm-12 col-xs-12 form-group">
+              <div class="col-sm-4 col-xs-12 form-group">
+                <label for="brand">Marca <small class="text-muted">(Obligatorio)</small></label>
+                <select  id="brand" class="form-control" name="brand" data-ng-model="brandSelected" data-ng-change="modelSelected = null; cleanVersions()" required  >
+                  <option data-ng-repeat="brand in brands | orderBy: 'name' | filter:{type_vehicle_id : object.type}" value="{{brand.id}}" ng-selected="brand.id == brandSelected" >{{brand.name}} </option>
+                </select>
+               </div>
+              <div class="col-sm-4 col-xs-12 form-group">
+                <label for="model">Modelo<small class="text-muted">(Obligatorio)</small></label>
+                <select  id="model" class="form-control" name="model" data-ng-model="modelSelected" data-ng-change="filterVersions(modelSelected)" required  >
+                  <option data-ng-repeat="model in models | orderBy: 'name'" value="{{::model.id}} " ng-selected="model.id == $parent.modelSelected" ng-show="model.type_vehicle_brand_id == $parent.brandSelected">{{model.name}}</option>
+                </select>
+              </div>
+              <div data-ng-show="showVersions" class="col-sm-4 col-xs-12 form-group">
+                <label for="version">Version <small class="text-muted">(Obligatorio)</small></label>
+                <select  id="version" class="form-control" name="version" data-ng-model="versionSelected">
+                  <option data-ng-repeat="version in versions | orderBy: 'name' | filter: {type_vehicle_model_id: modelSelected} " value="{{version.id}}" ng-selected="version.id == versionSelected" >{{version.name}} </option>
+                </select>
+              </div>
+	          </div>
+          </div>
+      </div>
+  </div>
+	<div class="modal-footer">
+		<a data-ng-click="modalInstance.dismiss();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button ng-show="saveCar" data-ng-disabled="form.$invalid" class="btn btn-success-alt" data-ng-click="guardarNuevo()"><i class="fa fa-fw fa-save"></i> Guardar</button>
+    <button ng-hide="saveCar" data-ng-disabled="ver" class="btn btn-success-alt" data-ng-click="guardarNuevo(form.$invalid)"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>

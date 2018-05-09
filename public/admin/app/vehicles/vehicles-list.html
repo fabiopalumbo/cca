@@ -1,0 +1,220 @@
+<div class="page-heading">
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <h2 data-ng-if="share != true">Vehículos</h2>
+      <h2 data-ng-if="share == true">Vehículos compartidos en Nuestros Autos</h2>
+    </div>
+    <div class="col-md-6 text-right pull-right">
+      <a data-ng-click="openEditVehicle()" class="btn btn-social btn-facebook-alt" type="button"><span></span><i class="fa fa-fw fa-plus"></i> Agregar vehiculo</a>
+    </div>
+  </div>
+</div>
+
+<div id="vehicles-spinner" class="container-fluid spinner"></div>
+<div id="vehicles-share-spinner" class="container-fluid spinner"></div>
+
+<div data-ng-show="vehicles" style="margin-top: -50px">
+  <div class="container-fluid">
+    <form name="form" data-ng-submit="filter()" class="form-horizontal">
+      <div class="form-group">
+        <label for="filter_word" class="col-sm-3">Filtrar por palabras</label>
+        <div class="col-sm-12">
+          <div class="input-group">
+            <input id="filter_word" class="form-control" type="text" name="name" data-ng-model="filters.tag" placeholder="Buscar...">
+            <span class="input-group-btn">
+              <button data-ng-if="filters.tag != ''" class="btn btn-default" data-ng-click="filter('clear-tag')" type="button"><i class="fa fa-close"></i></button>
+              <button class="btn btn-default" data-ng-click="filter()" type="button"><i class="fa fa-search"></i></button>
+           </span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-12 text-center" >
+          <br>
+          <ui-select class="text-left" data-ng-model="filters.brand" data-ng-change="filter()" style="min-width: 100%;margin-left:0 !important;margin-right:0 !important">
+            <ui-select-match allow-clear="true" placeholder="Filtrar por Marca">
+              <span ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="brand.id as brand in (brands | orderBy: 'name')">
+              <span ng-bind="brand.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="col-sm-3 col-xs-12 text-center">
+          <br>
+          <ui-select class="text-left" data-ng-model="filters.model" data-ng-change="filter()" style="min-width: 100%;margin-left:0 !important;margin-right:0 !important">
+            <ui-select-match allow-clear="true" placeholder="Filtrar por Modelo">
+              <span ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="model.id as model in (models | orderBy: 'name' | filter:modelsFilter)">
+              <span ng-bind="model.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="col-sm-3 col-xs-12 text-center">
+          <br>
+          <ui-select class="text-left" data-ng-model="filters.type" data-ng-change="filter()" style="min-width: 100%;margin-left:0 !important;margin-right:0 !important">
+            <ui-select-match allow-clear="true" placeholder="Filtrar por Tipo">
+              <span ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="type.id as type in (types | orderBy: 'name')">
+              <span ng-bind="type.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="col-sm-3 col-xs-12 text-center">
+          <br>
+          <ui-select class="text-left" data-ng-model="filters.fuel" data-ng-change="filter()" style="min-width: 100%;margin-left:0 !important;margin-right:0 !important">
+            <ui-select-match allow-clear="true" placeholder="Filtrar por Combustible">
+              <span ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="fuel.id as fuel in (fuels | orderBy: 'name')">
+              <span ng-bind="fuel.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+    </form>
+
+    <center><h5 style="margin-bottom:0!important;color:#676767">Ver como:</h5></center>
+    <div class="btn-group col-xs-12 text-center" style="margin-bottom:20px">
+      <div class="col-sm-3 col-xs-1"></div>
+      <button type="button" class="col-sm-3 col-xs-5 btn btn-social btn-facebook-alt" data-ng-class="{'active': verComo == 'galeria'}" data-ng-click="changeVerComo('galeria')">Galería</button>
+      <button type="button" class="col-sm-3 col-xs-5 btn btn-social btn-facebook-alt" data-ng-class="{'active': verComo == 'tabla'}" data-ng-click="changeVerComo('tabla')">Tabla</button>
+    </div>
+
+    <div id="vehicles-table-spinner" class="container-fluid spinner"></div>
+    <div id="vehicles-share-table-spinner" class="container-fluid spinner"></div>
+
+    <div data-ng-if="verComo == 'galeria'" style="margin-top: -50px" data-ng-show="showTable">
+      <h4>Resultados</h4>
+
+      <div class="table-responsive" data-ng-show="totalItems == 0">
+        <pre>No se encontraron resultados.</pre>
+      </div>
+
+      <div data-ng-show="totalItems > 0" class="row">
+        <div class="col-xs-12" data-ng-repeat="obj in vehicles" style="padding-left:0 !important;padding-right: 0 !important;background: #fff;border: 2px solid #3b5998;border-radius: 2px;margin-bottom:7px">
+          <div class="col-xs-12" style="padding: 5px 0 !important;background-color: #3b5998;text-align:center">
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_ml ? obj.permalink_ml : ''}}" target="_blank" rel="nofollow"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.mercadolibre_id != null,'opacity-inactive': obj.mercadolibre_id == null}" data-tooltip="MercadoLibre" src="assets/img/portales/portal-ml.png"></a>
+            <!--<img ng-if="share != true" class="vehicle-list-item-image-portales" data-ng-class="{'opacity-active': obj.nuestrosautos_id != null,'opacity-inactive': obj.nuestrosautos_id == null}" data-tooltip="NuestrosAutos" src="assets/img/portales/portal-na.png">-->
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_fb ? obj.permalink_fb : ''}}" rel="nofollow" target="_blank"><img class="vehicle-list-item-image-portales" data-ng-class="{'opacity-active': obj.facebook_id != null,'opacity-inactive': obj.facebook_id == null}" data-tooltip="Facebook" src="assets/img/portales/portal-fc.png"></a>
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_ac ? obj.permalink_ac : ''}}" rel="nofollow" target="_blank"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.autocosmos_id && obj.autocosmos_id != null,'opacity-inactive': obj.autocosmos_id == undefined}" data-tooltip="AutoCosmos" src="assets/img/portales/portal-ac.png"></a>
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_af ? obj.permalink_af : ''}}" target="_blank" rel="nofollow"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.autofoco_id && obj.autofoco_id != null,'opacity-inactive': obj.autofoco_id == undefined}" data-tooltip="AutoFoco" src="assets/img/portales/portal-af.png"></a>
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_da ? obj.permalink_da : ''}}" rel="nofollow" target="_blank"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.deautos_id && obj.deautos_id != null,'opacity-inactive': obj.deautos_id == undefined}" data-tooltip="DeAutos" src="assets/img/portales/portal-da.png"></a>
+<!--<a ng-if="share != true" data-ng-href="{{obj.permalink_olx ? obj.permalink_olx : ''}}" rel="nofollow" target="_blank"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.olx_id && obj.olx_id != null,'opacity-inactive': obj.olx_id == undefined}" data-tooltip="OLX" src="assets/img/portales/portal-olx.png"></a>-->
+            <a ng-if="share != true" data-ng-href="{{obj.permalink_dm ? obj.permalink_dm : ''}}" target="_blank" rel="nofollow"><img class="vehicle-list-item-image-portales"  data-ng-class="{'opacity-active': obj.demotores_id && obj.demotores_id != null,'opacity-inactive': obj.demotores_id == undefined}" data-tooltip="DeMotores" src="assets/img/portales/portal-dm.png"></a>
+            <button data-ng-if="share != true" class="btn btn-social white-button" style="float:right;margin: 2px 5px" confirm-button="remove(obj.id)" data-tooltip="Eliminar"><i class="fa fa-trash-o"></i></button>
+            <button data-ng-if="share != true" class="btn btn-social white-button" style="float:right;margin: 2px 5px" data-ng-click="openEditVehicle(obj.id)" data-tooltip="Editar"><i class="fa fa-pencil"></i></button>
+            <div ng-if="share" class="col-xs-3">
+              <a class="btn btn-danger col-sm-12 disabled" data-tooltip="Contactar">Contactar</a>
+            </div>
+            <div ng-if="share" class="col-xs-9" style="font-size:16px; color:#fff; text-align: left;">{{obj.dealer_name}}</div>
+            <div ng-if="!share" class="col-sm-3">
+              <a class="btn btn-danger col-sm-10 col-sm-offset-2" data-tooltip="Publicar" ng-click="openPublishVehicle(obj.id)">Publicar</a>
+            </div>
+          </div>
+          <div class="col-xs-3" style="height: 150px; background: transparent url({{obj.image ? obj.image : 'assets/img/car-default.png'}}) no-repeat scroll center center / cover ;"></div>
+          <div class="col-xs-9" style="border-left:2px solid #3b5998;min-height:150px;">
+            <div class="col-xs-4 data-gallery">
+              <label style="font-weight:lighter">Marca</label>
+              <span style="font-weight:bold">{{obj.brand ? obj.brand : '-'}}</span>
+              <label style="font-weight:lighter">Modelo</label>
+              <span style="font-weight:bold">{{obj.model ? obj.model : '-'}}</span>
+              <label style="font-weight:lighter">Versión</label>
+              <span style="font-weight:bold">{{obj.version_name ? obj.version_name : '-'}}</span>
+            </div>
+            <div class="col-xs-4 data-gallery">
+              <label style="font-weight:lighter">Precio</label>
+              <span style="font-weight:bold">{{obj.price ? obj.price : '-'}}</span>
+              <label style="font-weight:lighter">KMs</label>
+              <span style="font-weight:bold">{{obj.kilometers ? obj.kilometers : '-'}}</span>
+              <label style="font-weight:lighter">Año</label>
+              <span style="font-weight:bold">{{obj.year ? obj.year : '-'}}</span>
+            </div>
+            <div class="col-xs-4 data-gallery">
+              <label style="font-weight:lighter">Combustible</label>
+              <span style="font-weight:bold">{{obj.fuel ? obj.fuel : '-'}}</span>
+              <label style="font-weight:lighter">Puertas</label>
+              <span style="font-weight:bold">{{obj.doors ? obj.doors : '-'}}</span>
+              <label style="font-weight:lighter">Color</label>
+              <span style="font-weight:bold">{{obj.color_name ? obj.color_name : '-'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="text-center">
+        <pagination class="mb5" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages"></pagination>
+      </div>
+      <pre>Página: {{currentPage}} / {{numPages}}</pre>
+    </div>
+
+    <div data-ng-if="verComo == 'tabla'" style="margin-top: -50px" data-ng-show="showTable">
+      <h4>Tabla de Resultados</h4>
+
+      <div class="table-responsive" data-ng-show="totalItems == 0">
+        <pre>No se encontraron resultados.</pre>
+      </div>
+
+      <div class="table-responsive" data-ng-show="totalItems > 0">
+        <table data-ng-table="tableParams" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th class="sortable" data-property="fcodeName">Marca</th>
+              <th class="sortable" data-property="countrycode">Modelo</th>
+              <th class="sortable" data-property="countrycode">Versión</th>
+                <th class="sortable" data-property="countrycode">Precio</th>
+                <th class="sortable" data-property="countrycode">KMs</th>
+                <th class="sortable" data-property="countrycode">Año</th>
+              <th class="sortable" data-property="countrycode">Combustible</th>
+              <th class="sortable" data-property="countrycode"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-ng-repeat="obj in vehicles">
+              <td data-title="'Marca'" sortable="brand">
+                {{obj.brand}}
+              </td>
+
+              <td data-title="'Modelo'" sortable="model">
+                {{obj.model}}
+              </td>
+
+              <td data-title="'Versión'" sortable="version">
+                {{obj.version_name}}
+              </td>
+
+              <td data-title="'Precio'" sortable="precio">
+                  {{obj.price}}
+              </td>
+
+              <td data-title="'KMs'" sortable="kilometers">
+                  {{obj.kilometers}}
+              </td>
+
+              <td data-title="'Año'" sortable="year">
+                {{obj.year}}
+              </td>
+
+              <td data-title="'Combustible'" sortable="combustible">
+                {{obj.fuel}}
+              </td>
+
+              <td data-title="''" class="text-center" style="width: 80px">
+                <div class="buttons">
+                  <button data-ng-if="share != true && loggedUser.permission['Vehiculos'].read == '1' && loggedUser.permission['Vehiculos'].update != '1'" class="btn btn-sm btn-midnightblue-alt" data-ng-click="openEditVehicle(obj.id,true)" data-tooltip="Detalles"><i class="fa fa-list"></i></button>
+                  <button data-ng-if="share != true && loggedUser.permission['Vehiculos'].update == '1'" class="btn btn-sm btn-midnightblue-alt" data-ng-click="openEditVehicle(obj.id)" data-tooltip="Editar"><i class="fa fa-pencil"></i></button>
+                  <button data-ng-if="share != true && loggedUser.permission['Vehiculos'].delete == '1'" class="btn btn-sm btn-danger-alt" confirm-button="remove(obj.id)" data-tooltip="Eliminar"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+        </table>
+        <hr>
+        <div class="text-center">
+          <pagination class="mb5" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages"></pagination>
+        </div>
+        <pre>Página: {{currentPage}} / {{numPages}}</pre>
+      </div>
+    </div>
+  </div>
+</div>

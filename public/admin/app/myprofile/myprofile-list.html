@@ -1,0 +1,53 @@
+<div class="page-heading">
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <h2>Mi Perfil</h2>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="col-sm-12">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6 text-center">
+            <div>Subir una nueva imágen:</div>
+            <input type="file" id="fileInput" class="btn btn-social btn-facebook col-sm-12" style="margin-bottom:20px"/>
+            <div data-ng-show="ngCrop" class="cropArea">
+              <img-crop image="myImage" area-type="square" result-image-format="image/jpeg" result-image="myCroppedImage"></img-crop>
+            </div>
+            <div id="myprofile-crop-spinner" style="margin-top: -24px; margin-bottom: 36px;" class="container-fluid spinner"></div>
+            <button data-ng-if="ngCrop" class="btn btn-midnightblue-alt" data-ng-click="cancel()"><i class="fa fa-fw fa-close"></i> Cancelar</button>
+            <button data-ng-if="ngCrop" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-check"></i> Guardar</button>
+            <div data-ng-if="ngCrop">Vista previa:</div>
+            <div><img data-ng-show="ngCrop" data-ng-src="{{myCroppedImage}}" /></div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+        <div class="col-sm-12" data-ng-if="!ngCrop">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 text-center">
+            <img data-ng-src="{{loggedUser.cropped_image_url ? loggedUser.cropped_image_url : 'assets/img/imagen-sin-profile.png'}}" class="img-circle" style="width:100%;height:auto">
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        <div class="col-sm-12">
+          <div id="myprofile-spinner" style="margin-top: -8px; margin-bottom: 30px;" class="container-fluid spinner"></div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 text-center">
+            <i><strong>Nombre</strong></i>
+            <div class="question" style="margin-bottom:10px">{{loggedUser.first_name ? loggedUser.first_name : '-' }}</div>
+            <i><strong>Apellido</strong></i>
+            <div class="question" style="margin-bottom:10px">{{loggedUser.last_name ? loggedUser.last_name : '-' }}</div>
+            <i><strong>Email</strong></i>
+            <div class="question" style="margin-bottom:10px">{{loggedUser.email ? loggedUser.email : '-' }}</div>
+            <i><strong>Teléfono</strong></i>
+            <div class="question" style="margin-bottom:10px">{{loggedUser.phone ? loggedUser.phone : '-' }}</div>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

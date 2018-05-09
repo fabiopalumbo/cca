@@ -1,0 +1,107 @@
+<div>
+    <section id="content">
+        <div class="main padder">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="panel-body">
+                        <div class="col-lg-12">
+                            <div class="clearfix">
+                                <h4 style="margin-bottom:20px; padding-left: 10px; !important"><i class="fa fa-edit"></i>Editar mi perfil</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                   <form name="userProfileForm" ng-submit="submitForm(userProfileForm.$valid)" novalidate>
+                                        <section class="panel">
+                                            <div class="panel-body">
+                                                <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-12 h3">Datos de usuario</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-3 control-label">Avatar</label>
+                                                        <div class="col-lg-9 media" >
+                                                            <div class="bg-light pull-left text-center media-large thumb-large"><i class="fa fa-user inline fa fa-light fa fa-3x m-t-large m-b-large"></i></div>
+                                                            <div class="media-body" style="margin-bottom: 25px;">
+
+                                                               <div id="uploadFile_div">
+                                                                    <input style=" height: 35px; width: 67%; padding-top: 0px; padding-left: 9px;!IMPORTANT" type="file" class="btn btn-primary" id="uploadFile"
+                                                                           onkeydown="return false;" size="40" name="uploadFile"/>
+                                                                </div>
+                                                                <button style="margin-top:10px;!Important;" button class="btn btn-sm btn-default" onclick="clearFileInputField('uploadFile_div')"
+                                                                   >Clear</button>
+
+                                                                <script>
+                                                                    function clearFileInputField(uploadFile) {
+                                                                        document.getElementById(uploadFile).innerHTML =
+                                                                                document.getElementById(uploadFile).innerHTML;
+                                                                    }
+                                                                </script>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="line line-dashed m-t-large"></div>
+
+                                                    <br>
+
+                                                    <div class="form-group">
+                                                        <label class="col-lg-3 control-label">Nombre</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" name="firstname" data-required="true" class="form-control2" data-ng-model="userProfile.firstname"required>
+                                                            <p ng-show="userProfileForm.firstname.$invalid && !userProfileForm.firstname.$pristine" class="help-block">Your name is required.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-3 control-label">Apellido</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" name="lastname" data-required="true" class="form-control2" data-ng-model="userProfile.lastname"required>
+                                                            <p ng-show="userProfileForm.lastname.$invalid && !userProfileForm.lastname.$pristine" class="help-block">Your lastname is required.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-3 control-label">Celular</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" name="cellphone"  id="cellphone" data-required="true" class="form-control2" data-ng-model="userProfile.cellphone"required >
+                                                            <p ng-show="userProfileForm.cellphone.$invalid && !userProfileForm.callphone.$pristine" class="help-block">Your cellphone is required.</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="form-group">
+                                                    <div class="col-lg-9 col-lg-offset-3">
+                                                        <button type="submit" class="btn btn-primary"  ng-disabled="userProfileForm.invalid">Guardar cambios</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </form>
+
+                                    <!--Imagenes-->
+                                    <section class="panel m-t-small">
+                                        <header class="panel-heading bg-inverse text-center"><b>Imágenes</b></header>
+                                        <div class="panel-body">
+                                            <div class="gallery gridalicious" id="gallery">
+                                                <!--<image-upload placeholder="Logo" image="image" upload-url="uploadImageURL"
+                                                              data="uploadImageObject" before="beforeImageUpload()" after="afterImageUpload()"
+                                                              button-disabled="uploadingImage">
+
+                                                </image-upload>-->
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                                <!--fin imagenes-->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+

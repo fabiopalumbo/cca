@@ -1,0 +1,49 @@
+<li data-ng-show="currentDealer.id">
+  <h5 class=" btn btn-social btn-facebook-alt active dealer-header">{{currentDealer.name.toUpperCase()}}</h5>
+</li>
+<li>
+  <img style="cursor:pointer;margin-top:8px;border-radius:4px" data-ng-click="$root.redirectTo('/mydealer')" data-ng-src="{{currentDealer.cropped_image_url ? currentDealer.cropped_image_url : 'assets/img/sinimagen.png'}}"/>
+</li>
+<li data-ng-hide="!$root.hasMultipleDealers" class="dropdown toolbar-icon-bg">
+  <a class="dropdown-toggle" data-ng-click="$root.selectDealer()"><span class="icon-bg"><i class="fa fa-fw fa-bank"></i></span></a>
+</li>
+<li class="dropdown toolbar-icon-bg">
+  <a data-toggle="dropdown" class="hasnotifications dropdown-toggle"><span class="icon-bg"><i class="fa fa-comment-o"></i></span><span class="badge badge-info">5</span></a>
+  <div class="dropdown-menu dropdown-alternate notifications arrow">
+    <div class="dd-header">
+      <span>Notifications</span>
+    </div>
+    <div class="scrollthis scroll-pane has-scrollbar">
+      <ul class="scroll-content" tabindex="0" style="right: -12px;">
+
+        <li class="">
+          <a class="notification-info">
+            <div class="notification-icon"><i class="fa fa-user fa-fw"></i></div>
+            <div class="notification-content">Profile Page has been updated</div>
+            <div class="notification-time">2m</div>
+          </a>
+        </li>
+      </ul>
+      <div class="scroll-track" style="display: none;"><div class="scroll-thumb" style="height: 20px; transform: translate(0px, 0px);"></div></div></div>
+  </div>
+</li>
+<li class="dropdown toolbar-icon-bg">
+  <a class="dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-user"></i></span></a>
+  <ul class="dropdown-menu userinfo arrow">
+    <li><a><span class="pull-left">Operadores</span></a></li>
+    <li class="divider"></li>
+    <li><a href="#/mydealer"><span class="pull-left">Mi Concesionaria</span> <i class="pull-right fa fa-bank"></i></a></li>
+    <li><a href="#/myprofile"><span class="pull-left">Mi Perfil</span> <i class="pull-right fa fa-user"></i></a></li>
+    <li class="divider"></li>
+    <li ng-if="loggedUser.permission['Vinculaciones']"><a href="#/linking"><span class="pull-left">Vinculaciones</span></a></li>
+    <li ng-if="loggedUser.permission['Vinculaciones']" class="divider"></li>
+    <li><a href="http://mesadeayuda.cca.org.ar/index.php?p=start&lang=en&slide=0&web=1"><span class="pull-left">Ayuda Chat en Vivo</span></a></li>
+    <li><a href="http://mesadeayuda.cca.org.ar/index.php?p=faq&lang=en&small=1&web=1"><span class="pull-left">Preguntas Frecuentes</span></a></li>
+    <li><a href="http://mesadeayuda.cca.org.ar/index.php?p=support&sp=create&ssp=1&lang=en&small=1&web=1"><span class="pull-left">Contacto Soporte</span></a></li>
+    <li class="divider"></li>
+    <li><a href="logout"><span class="pull-left">Cerrar Sesion</span> <i class="pull-right fa fa-sign-out"></i></a></li>
+  </ul>
+<!--<li class="toolbar-icon-bg hidden-xs" toggle-fullscreen >-->
+  <!--<a href="#" class="toggle-fullscreen"><span class="icon-bg"><i class="fa fa-fw fa-arrows-alt"></i></span></i></a>-->
+<!--</li>-->
+</li>

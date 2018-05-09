@@ -1,0 +1,77 @@
+<div class="page-heading">
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <h2>Mi Concesionaria</h2>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="col-sm-12">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6 text-center">
+            <div>Subir una nueva imágen:</div>
+            <input type="file" id="fileInput" class="btn btn-social btn-facebook col-sm-12" style="margin-bottom:20px"/>
+            <div data-ng-show="ngCrop" class="cropArea">
+              <img-crop image="myImage" area-type="rectangle" result-image-format="image/jpeg" aspect-ratio="3" result-image="myCroppedImage" result-image-size='{w: 96,h: 32}' init-max-area="true"></img-crop>
+            </div>
+            <div id="mydealer-crop-spinner" style="margin-top: -24px; margin-bottom: 36px;" class="container-fluid spinner"></div>
+            <button data-ng-if="ngCrop" class="btn btn-midnightblue-alt" data-ng-click="cancel()"><i class="fa fa-fw fa-close"></i> Cancelar</button>
+            <button data-ng-if="ngCrop" class="btn btn-success-alt" data-ng-click="save()"><i class="fa fa-fw fa-check"></i> Guardar</button>
+            <div data-ng-if="ngCrop">Vista previa:</div>
+            <div><img data-ng-show="ngCrop" data-ng-src="{{myCroppedImage}}" /></div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+        <div class="col-sm-12" data-ng-if="!ngCrop">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 text-center">
+            <img style="margin-top:8px;border-radius:4px" data-ng-src="{{currentDealer.cropped_image_url ? currentDealer.cropped_image_url : 'assets/img/sinimagen.png'}}"/>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        <div class="col-sm-12">
+          <div id="mydealer-spinner" style="margin-top: -8px; margin-bottom: 30px;" class="container-fluid spinner"></div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 text-center">
+            <i><strong>Socio</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.partner ? currentDealer.partner : '-' }}</div>
+            <i><strong>Empresa</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.company ? currentDealer.company : '-' }}</div>
+            <i><strong>CUIT</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.cuit ? currentDealer.cuit : '-' }}</div>
+            <i><strong>Nombre</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.name ? currentDealer.name : '-' }}</div>
+            <i><strong>Apellido</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.last_name ? currentDealer.last_name : '-' }}</div>
+            <i><strong>Tipo de Documento</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.dni_type ? currentDealer.dni_type : '-' }}</div>
+            <i><strong>Documento</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.dni ? currentDealer.dni : '-' }}</div>
+            <i><strong>Dirección</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.address ? currentDealer.address : '-' }}</div>
+            <i><strong>Localidad</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.location ? currentDealer.location : '-' }}</div>
+            <i><strong>Código Postal</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.zip_code ? currentDealer.zip_code : '-' }}</div>
+            <i><strong>Email</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.email ? currentDealer.email : '-' }}</div>
+            <i><strong>Teléfono</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.phone ? currentDealer.phone : '-' }}</div>
+            <i><strong>Celular</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.cellphone ? currentDealer.cellphone : '-' }}</div>
+            <i><strong>Fax</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.fax ? currentDealer.fax : '-' }}</div>
+            <i><strong>Contacto</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.contact ? currentDealer.contact : '-' }}</div>
+            <i><strong>Horarios</strong></i>
+            <div class="question" style="margin-bottom:10px">{{currentDealer.work_hours ? currentDealer.work_hours : '-' }}</div>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

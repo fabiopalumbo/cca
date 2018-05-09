@@ -1,0 +1,658 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\CarDealer;
+use App\CarDealerToken;
+use App\QuestionAutocosmo;
+use App\Region;
+use App\RegionCity;
+use App\TypeVehicle;
+use App\TypeVehicleBrand;
+use App\TypeVehicleColor;
+use App\TypeVehicleModel;
+use App\TypeVehicleVersion;
+use App\Vehicle;
+use App\VehicleAutocosmos;
+use App\VehicleDeautos;
+use App\VehicleImage;
+use App\VehicleNuestrosAutos;
+use Carbon\Carbon;
+use Config;
+use DB;
+use GuzzleHttp;
+use GuzzleHttp\Exception\RequestException;
+use App\DASession;
+use Illuminate\Http\Request;
+use Input;
+use Hash;
+
+class DeAutosController extends Controller
+{
+	/* - - - - - - - - - - - - Importación de datos de ML - - - - - - - - - - - - - - - - - - */
+
+	public function getBrands(){
+		$client = new GuzzleHttp\Client();
+		$response = $client->request('GET', "http://catalog.api.deautos.com/catalog/brands");
+		$DAbrands = json_decode($response->getBody(),true);
+		foreach($DAbrands as $DAbrand){
+			if((int)TypeVehicleBrand::where('slug','=',$DAbrand["seoFriendlyName"])->count()){
+				TypeVehicleBrand::where('slug','=',$DAbrand["seoFriendlyName"])->update(array(
+					'deautos_id' => $DAbrand['id'],
+				));
+			}else{
+				TypeVehicleBrand::create(array(
+					"type_vehicle_id" => TypeVehicle::AUTOS_CAMIONETAS,
+					"name" =>  $DAbrand['name'],
+					"mercadolibre_id" => 'MLA1939',         //OtrasMarcas
+					"deautos_id" => $DAbrand['id'],
+					"slug" => str_slug($DAbrand['name'])
+				));
+			}
+		}
+		return 'Ok getBrands';
+	}
+
+	public function getModels(){
+		// Actualiza el valor de autocosmos_id o crea un modelos asociada a OtrasModelos  de ML
+		$DBbrands = DB::table('types_vehicles_brands')->
+			whereNotNull('deautos_id')->
+			groupBy('deautos_id')->
+			select(array(
+				'deautos_id',
+				DB::raw('GROUP_CONCAT(id SEPARATOR ",") as brand_ids')
+			))->
+			get();
+		$client = new GuzzleHttp\Client();
+		foreach($DBbrands as $DBbrand){
+			$brand_ids = explode(',',$DBbrand->brand_ids);
+			$response = $client->request('GET', "http://catalog.api.deautos.com/catalog/brands/".$DBbrand->deautos_id."/models");
+			$DAmodels = json_decode($response->getBody(),true);
+			foreach($DAmodels as $DAmodel){
+				if($DBmodel = TypeVehicleModel::whereIn('type_vehicle_brand_id',$brand_ids)->
+					where('slug','=',$DAmodel["modelSeoFriendlyName"])->
+					first()){
+					$DBmodel->update(array(
+						'deautos_id' => $DAmodel["modelId"]
+					));
+				}else{
+					$type_vehicle_brand_id = $brand_ids[0];
+					if($otherModel = TypeVehicleModel::where('type_vehicle_brand_id','=',$type_vehicle_brand_id)->
+						where('slug','=',DB::raw('"otros-modelos"'))->
+						first()){
+						$mercadolibre_id = $otherModel->mercadolibre_id;    // Otros modelos de la marca
+					}else{
+						$mercadolibre_id = 'MLA27301';  // Otros modelos generales
+					}
+					TypeVehicleModel::create(array(
+						"name" => $DAmodel['modelName'],
+						"type_vehicle_brand_id" => $type_vehicle_brand_id,
+						"mercadolibre_id" => $mercadolibre_id,
+						"deautos_id" => $DAmodel["modelId"],
+						"slug" => str_slug($DAmodel['modelName'])
+					));
+				}
+			}
+		}
+		return 'Ok getModels';
+	}
+
+	public function getVersions()
+	{
+		$client = new GuzzleHttp\Client();
+		$DBmodels = TypeVehicleModel::whereNotNull("deautos_id")->get();
+		foreach ($DBmodels as $DBmodel) {
+			$response = $client->request('GET', "http://catalog.api.deautos.com/catalog/models/".$DBmodel->deautos_id."/versions");
+			$DAversions = json_decode($response->getBody(), true);
+			foreach ($DAversions as $DAversion) {
+				$slug = str_slug($DAversion["versionName"]);
+				if($DBversion = TypeVehicleVersion::where('type_vehicle_model_id','=',$DBmodel->id)->
+					where('slug','=',$slug)->
+					first()){
+					$DBversion->update(array(
+						'deautos_id' => $DAversion["versionId"]
+					));
+				}else{
+					$DBversions = TypeVehicleVersion::where("type_vehicle_model_id",'=',$DBmodel->id)->get();
+					$found = false;
+					foreach($DBversions as $DBversion){
+						if($this->compareStrings($DBversion->slug,$slug)){
+							$DBversion->deautos_id = $DAversion["versionId"];
+							$DBversion->save();
+							$found = true;
+							break;
+						};
+					}
+					if (!$found) {
+						TypeVehicleVersion::create(array(
+							"type_vehicle_model_id" => $DBmodel->id,
+							"name" => $DAversion["versionName"],
+							"deautos_id" => $DAversion["versionId"],
+							"slug" => $slug
+						));
+					}
+				}
+			}
+		}
+		return 'Ok getVersions';
+	}
+
+	public function getProvinces(){
+		$DAprovinces = array(
+			array(
+				"id" => 19687,
+				"name" => "Buenos Aires"
+			),
+			array(
+				"id" => 19688,
+				"name" => "Capital Federal"
+			),
+			array(
+				"id" => 19692,
+				"name" => "Catamarca"
+			),
+			array(
+				"id" => 19694,
+				"name" => "Chaco"
+			),
+			array(
+				"id" => 19707,
+				"name" => "Chubut"
+			),
+			array(
+				"id" => 19697,
+				"name" => "Córdoba"
+			),
+			array(
+				"id" => 19703,
+				"name" => "Corrientes"
+			),
+			array(
+				"id" => 19711,
+				"name" => "Entre Rios"
+			),
+			array(
+				"id" => 19713,
+				"name" => "Formosa"
+			),
+			array(
+				"id" => 20718,
+				"name" => "Gran Buenos Aires"
+			),
+			array(
+				"id" => 19690,
+				"name" => "Jujuy"
+			),
+			array(
+				"id" => 19704,
+				"name" => "La Pampa"
+			),
+			array(
+				"id" => 19696,
+				"name" => "La Rioja"
+			),
+			array(
+				"id" => 19701,
+				"name" => "Mendoza"
+			),
+			array(
+				"id" => 19702,
+				"name" => "Misiones"
+			),
+			array(
+				"id" => 19705,
+				"name" => "Neuquén"
+			),
+			array(
+				"id" => 19706,
+				"name" => "Rio Negro"
+			),
+			array(
+				"id" => 19691,
+				"name" => "Salta"
+			),
+			array(
+				"id" => 19700,
+				"name" => "San Juan"
+			),
+			array(
+				"id" => 19699,
+				"name" => "San Luis"
+			),
+			array(
+				"id" => 19708,
+				"name" => "Santa Cruz"
+			),
+			array(
+				"id" => 19698,
+				"name" => "Santa Fe"
+			),
+			array(
+				"id" => 19710,
+				"name" => "Santiago Del Estero"
+			),
+			array(
+				"id" => 19709,
+				"name" => "Tierra Del Fuego"
+			),
+			array(
+				"id" => 19695,
+				"name" => "Tucumán"
+			),
+		);
+
+		foreach($DAprovinces as $DAprovince){
+			if($DAprovince['id'] == 19687){ // Buenos Aires
+				Region::whereIn('slug',array('bsas-costa-atlantica','buenos-aires-interior'))->update(array(
+					'deautos_id' => $DAprovince['id'],
+				));
+			}elseif($DAprovince['id'] == 20718){ // Gran Buenos Aires
+				Region::whereIn('slug',array('bsas-gba-norte','bsas-gba-oeste','bsas-gba-sur'))->update(array(
+					'deautos_id' => $DAprovince['id'],
+				));
+			}else{
+				$slug = str_slug($DAprovince["name"]);
+				Region::where('slug','=',$slug)->update(array(
+					'deautos_id' => $DAprovince['id'],
+				));
+			}
+		}
+		return 'OK getProvinces';
+	}
+
+	// Muchos se corrigieron manualmente, igual faltan algunos que no están en ML
+	public function getCities(){
+		$client = new GuzzleHttp\Client();
+		$DBprovinces = DB::table('regions')->
+			whereNotNull('deautos_id')->
+			groupBy('deautos_id')->
+			select(array(
+				'deautos_id',
+				DB::raw('GROUP_CONCAT(id SEPARATOR ",") as region_ids')
+			))->
+			get();
+		foreach($DBprovinces as $DBprovince){
+			$region_ids = explode(',',$DBprovince->region_ids);
+			$response = $client->request('GET', "https://api.deautos.com/geo/states/".$DBprovince->deautos_id."/regions");
+			$DAcities = json_decode($response->getBody(),true);
+			foreach($DAcities as $DAcity){
+				$city_slug = str_slug($DAcity["name"]);
+				if($DBcity = RegionCity::whereIn('region_id',$region_ids)->
+					where('slug','=',$city_slug)->
+					first()){
+					$DBcity->update(array(
+						'deautos_id' => $DAcity["id"]
+					));
+				}else{
+					/*$type_vehicle_brand_id = $region_ids[0];
+					if($otherModel = TypeVehicleModel::where('type_vehicle_brand_id','=',$type_vehicle_brand_id)->
+						where('slug','=',DB::raw('"otros-modelos"'))->
+						first()){
+						$mercadolibre_id = $otherModel->mercadolibre_id;    // Otros modelos de la marca
+					}else{
+						$mercadolibre_id = 'MLA27301';  // Otros modelos generales
+					}
+					TypeVehicleModel::create(array(
+						"name" => $ACmodel['Nombre'],
+						"type_vehicle_brand_id" => $type_vehicle_brand_id,
+						"mercadolibre_id" => $mercadolibre_id,
+						"autocosmos_id" => $ACmodel["Codename"],
+						"slug" => str_slug($ACmodel['Nombre'])
+					));*/
+					//echo $DBprovince->region_ids.' -> '.$DAcity["id"].' -> '.$DAcity["name"].'<br>';
+				}
+			}
+		}
+		return 'OK getProvinces';
+	}
+
+	public function getColors(){
+		$client = new GuzzleHttp\Client();
+		$DBcolors = TypeVehicleColor::all();
+		$response = $client->request('GET', "http://api.deautos.com/entities/aggregate");
+		$DAcolors = json_decode($response->getBody(),true);
+		foreach($DAcolors["colors"] as $DAcolor){
+			$flag = false;
+			foreach($DBcolors as $DBcolor){
+				if(str_slug($DAcolor["name"]) == str_slug($DBcolor->name)){
+					$DBcolor->deautos_id = $DAcolor["id"];
+					$DBcolor->save();
+					$flag = true;
+				}
+			}
+			if(!$flag){
+				TypeVehicleColor::create(array(
+					"name" =>  $DAcolor['name'],
+					"deautos_id" => $DAcolor["id"]
+				));
+			}
+		}
+		return 'OK getColors';
+	}
+
+	private function compareStrings($first,$second){
+		$first_array = explode('-',$first);
+		$second_array = explode('-',$second);
+
+		if(count(array_diff($first_array,$second_array))){
+			return false;
+		}
+
+		if(count(array_diff($second_array,$first_array))){
+			return false;
+		}
+		return true;
+	}
+
+	/* - - - - - - - - - - - - - - - - - - - Métodos adicionales - - - - - - - - - - - - - - - - - - - - - - */
+
+	public function login($dealer_id,$vehicle_id,Request $request){
+		$data = Input::all();
+        if($dealer_token = CarDealerToken::where("car_dealer_id",'=',$dealer_id)->first()){
+            $daTokens = json_decode($dealer_token->deautos,true);
+            if(!isset($daTokens["access_token"])){
+                if($daTokens['user'] && $daTokens['password']){
+                    $this->refreshAccess($daTokens['user'],$daTokens['password'],$dealer_id,$vehicle_id,$request);
+                    /*$cmd = 'curl -X POST https://api.deautos.com/security/token -H "Content-Type:x-www-form-urlencoded" -d" grant_type=password&username='.$daTokens["user"].'&password='.$daTokens["password"].'"';
+                    $result = json_decode(exec($cmd),true);
+                    if(isset($result['error'])){
+                        return \Response::make('cuenta invalida',400);
+                    }else{
+                        $daTokens["access_token"] = $result["access_token"];
+                        $daTokens["expires_in"] = $result["expires_in"];
+                        $dealer_token->deautos = json_encode($daTokens);
+                        $dealer_token->save();
+                    }*/
+                }
+            }
+        }else{
+            return \Response::make('no hay cuenta vinculada',400);
+        }
+        session(['DAUser' => new DASession($daTokens["access_token"],$daTokens["expires_in"],$daTokens["user"],$daTokens["password"])]);
+
+        /*session(['DAUser' => new DASession($result["access_token"],$result["expires_in"],$data["user"],$data["password"])]);
+        if($dealer_token){
+            $daTokens = json_decode($dealer_token->deautos,true);
+            $daTokens["access_token"] = $result["access_token"];
+            $daTokens["user"] = $data["user"];
+            $daTokens["password"] = $data["password"];
+            $dealer_token->deautos = js_encode($daTokens);
+            $dealer_token->save();
+        }/*else{
+            $daTokens = new \stdClass();
+            $daTokens->access_token =  $result["access_token"];
+            $daTokens->password = $data["password"];
+            $daTokens->user = $data["user"];
+            CarDealerToken::create(array(
+                "car_dealer_id" => $dealer_id,
+                "deautos" => json_encode($daTokens)
+            ));
+        }*/
+        $result = $this->publishItem($dealer_id,$vehicle_id,$request->session()->get('DAUser'));
+        if(is_array($result)){
+            return $this->response(200,$result);
+        }else if($result === 'OK'){
+            return $this->response(200,array("data" => "OK"));
+        }else if($result === 'denied'){
+            $this->refreshAccess($daTokens['user'],$daTokens['password'],$dealer_id,$vehicle_id,$request);
+        }
+	}
+
+    private function refreshAccess($user,$pass,$dealer_id,$vehicle_id,$request){
+        $dealer_token = CarDealerToken::where("car_dealer_id",'=',$dealer_id)->first();
+        $cmd = 'curl -X POST https://api.deautos.com/security/token -H "Content-Type:x-www-form-urlencoded" -d" grant_type=password&username='.$user.'&password='.$pass.'"';
+        $result = json_decode(exec($cmd),true);
+        if(isset($result['error'])){
+            return \Response::make('cuenta invalida',400);
+        }else{
+            $daTokens["user"] = $user;
+            $daTokens["password"] = $pass;
+            $daTokens["access_token"] = $result["access_token"];
+            $daTokens["expires_in"] = $result["expires_in"];
+            $dealer_token->deautos = json_encode($daTokens);
+            $dealer_token->save();
+        }
+        $this->login($dealer_id,$vehicle_id,$request);
+    }
+
+	public function publishItem($dealer_id,$vehicle_id,$DAUser){
+		/*if(!$DAUser){
+			if($dealer_token = CarDealerToken::where("car_dealer_id",'=',$dealer_id)->first()){
+				$da_tokens = json_decode($dealer_token->deautos,true);
+				$DAUser = new \stdClass();
+				$DAUser->access_token = $da_tokens["access_token"];
+				$DAUser->user = $da_tokens["user"];
+				$DAUser->password = $da_tokens["password"];
+			}
+		}*/
+		$vehicle = DB::table("vehicles")->
+		join("types_vehicles","types_vehicles.id",'=','vehicles.type_vehicle_id')->
+		join("types_vehicles_brands",'types_vehicles_brands.id','=','vehicles.type_vehicle_brand_id')->
+		join("types_vehicles_models",'types_vehicles_models.id','=','vehicles.type_vehicle_model_id')->
+		join("types_currencies","types_currencies.id",'=','vehicles.type_currency_id')->
+		leftJoin("types_vehicles_colors",'types_vehicles_colors.id','=','vehicles.type_vehicle_color_id')->
+		leftJoin("types_vehicles_versions",'types_vehicles_versions.id','=','vehicles.type_vehicle_version_id')->
+		join("types_vehicles_fuels",'types_vehicles_fuels.id','=','vehicles.type_vehicle_fuel_id')->
+		join("car_dealers","car_dealers.id",'=',"vehicles.car_dealer_id")->
+		join("regions_cities","regions_cities.id",'=','car_dealers.region_city_id')->
+		join("regions","regions_cities.region_id","=","regions.id")->
+		where("vehicles.id",'=',$vehicle_id)->
+		whereNull("vehicles.deleted_at")->
+		first(array(
+			"types_vehicles_models.name as model",
+			"types_vehicles_models.deautos_id as model_id",
+			"types_vehicles_models.id as modelid",
+			"types_vehicles_models.mercadolibre_id as category",
+			"types_vehicles_brands.name as brand",
+			"types_vehicles_brands.id as brandid",
+			"types_vehicles_brands.deautos_id as brand_id",
+			"types_vehicles_fuels.name as fuel",
+			"types_vehicles_colors.name as color",
+			"types_vehicles_colors.deautos_id as color_id",
+			"vehicles.price",
+			"types_vehicles_versions.name as version",
+			"types_vehicles_versions.deautos_id as version_id",
+			"types_vehicles_versions.id as versionid",
+			"vehicles.kilometers",
+			"vehicles.domain",
+			"vehicles.transmission",
+			"types_currencies.name as currency_name",
+			"vehicles.doors",
+			"vehicles.year",
+			"regions.mercadolibre_id as region_mercadolibre",
+			"regions.name as region_name",
+			"regions.deautos_id as region_id",
+			"regions_cities.name as city_name",
+			"regions_cities.deautos_id as city_id",
+			"regions_cities.mercadolibre_id as city_mercadolibre",
+			"car_dealers.zip_code",
+			"car_dealers.address",
+			"car_dealers.email",
+			"car_dealers.phone"
+
+		));
+
+		if($da = VehicleDeautos::where("vehicle_id",'=',$vehicle_id)->first()){
+			if(!is_null($da->type_vehicle_brand_id) && !is_null($da->type_vehicle_model_id)  && !is_null($da->type_vehicle_version_id)){
+				$brand_da= TypeVehicleBrand::find($da->type_vehicle_brand_id);
+				$model_da = TypeVehicleModel::find($da->type_vehicle_model_id);
+				$version_da = TypeVehicleVersion::find($da->type_vehicle_version_id);
+				$vehicle->brand_id = $brand_da->deautos_id;
+				$vehicle->brand = $brand_da->name;
+				$vehicle->model_id = $model_da->deautos_id;
+				$vehicle->model = $model_da->name;
+				$vehicle->version_id = $version_da->deautos_id;
+				$vehicle->version = $version_da->name;
+			}
+		}
+        if(is_null($vehicle->brand_id)){
+            return array("brand"=>null);
+        }else{
+
+            if(is_null(TypeVehicleBrand::where('id','=',$vehicle->brand_id)->whereNotNull('deautos_id')->first())){
+                return array("brand"=>null,"brand_name"=>$vehicle->brand);
+            }
+            if(is_null($vehicle->model_id)){
+                return array("brand" => $vehicle->brand_id,"brand_name"=>$vehicle->brand,"model" => null);
+            }else{
+                if(is_null(TypeVehicleModel::where('id','=',$vehicle->model_id)->whereNotNull('deautos_id')->first())){
+                    return array("brand" => $vehicle->brand_id,"brand_name"=>$vehicle->brand,"model" => null,"model_name"=>$vehicle->model);
+                }
+                if(is_null($vehicle->version_id)) {
+                    return array("brand" => $vehicle->brand_id,"brand_name"=>$vehicle->brand, "model" => $vehicle->model_id,"model_name"=>$vehicle->model, "version" => null);
+                }else{
+                    if(is_null(TypeVehicleVersion::where('id','=',$vehicle->version_id)->whereNotNull('deautos_id')->first())){
+                        return array("brand" => $vehicle->brand_id,"brand_name"=>$vehicle->brand, "model" => $vehicle->model_id,"model_name"=>$vehicle->model, "version" => null,"version_name"=>$vehicle->version);
+                    }
+                }
+            }
+        }
+		$pictures = VehicleImage::where("vehicle_id",'=',$vehicle_id)->get();
+		$images = array();
+		foreach($pictures as $picture){
+			$images[] = $picture->url;
+		}
+
+		$cmd = 'curl -X GET https://api.deautos.com/security/userinfo -H "Content-Type:application/json" -H "Authorization: Bearer '.$DAUser->access_token.'"';
+        $userInfo = exec($cmd);
+        //dd($userInfo);
+        if(isset($userInfo['message']) == 'Authorization has been denied for this request.'){
+            return 'denied';
+        }
+		$item = array(
+			"AutoRepublish" => null,
+			"Comment" => "Vehiculo",
+			"PaymentOptionId" => 1,
+			"Price"=> (int)$vehicle->price,
+			"TempId" => "c0c642bf-a46a-4523-b024-f33357aeabd9",
+			"Type" => 3,
+			/*"User"=>array(
+				"Email" => $userInfo["email"],
+				"Id" => $userInfo["id"]
+				)*/
+            "User" => $userInfo,
+			"PublishableItem"=>array(
+				"Type" => 1,
+				"Fuel"=>array(
+					"Name" => "GNC",
+					"Id" => 3
+				),
+				"Brand" => array(
+					"Id" => $vehicle->brand_id,
+					"Name" => $vehicle->brand
+				),
+				"Model" => array(
+					"Id" => $vehicle->model_id,
+					"Name" => $vehicle->model,
+				),
+				"Version" => array(
+					"Id" => $vehicle->version_id,
+					"Name" => $vehicle->version
+				),
+				"Plate" =>  str_replace(array(' ',''), '', strtoupper($vehicle->domain)),
+				"CheckPrice" => true,
+				//"Images" => $images,
+				"Color" => array(
+					"Name" => $vehicle->color_id ? $vehicle->color : "A elección del cliente",
+					"Id" => $vehicle->color_id ?: 524
+				),
+				"Km" => $vehicle->kilometers,
+				"Year" => $vehicle->year
+				),
+				"Location" => array(
+					"State" => array(
+						"Name" => $vehicle->region_id ? $vehicle->region_name : "Capital Federal",
+						"Id" => $vehicle->region_id ?: 19688
+					),
+					"City" => array(
+						"Name" => $vehicle->city_id ? $vehicle->city_name : "Otra Ubicación",
+						"Id" => $vehicle->city_id ?: 19664
+					),
+				),
+				"ProductOffering" => array(
+					"Product" => array(
+						"SearchResultSection" => "B",
+						"Description" => $vehicle->brand .' '.$vehicle->model.' '.$vehicle->version ?:'',
+						"Position" => 2,
+						"MaxPictures" => 20,
+						"ShowMainPictureInSearchResults" => true,
+						"Duration" => 30,
+						"PublicationType" => 1,
+						"Name" => $vehicle->brand .' '.$vehicle->model.' '.$vehicle->version ?:'',
+						"Id" => 0,
+					),
+					"PublishableItemType" => $vehicle->kilometers == 0 ? "NewCar" : "UsedCar",
+					"Price" => (int)$vehicle->price,
+					"Currency" => array(
+						"Symbol" => $vehicle->currency_name == "ARS" ? "$" : "U\$S",
+						"Name" => $vehicle->currency_name == "ARS" ? "Pesos Argentinos" : "Dolares Estadounidense",
+						"Id" => 1
+					),
+					"description" =>  "Vehiculo:".' '.$vehicle->brand.' '."Modelo:".' '. $vehicle->model .' '."Color:".' '.$vehicle->color.' '."Transmision:".' '.$vehicle->transmission .' '. ".Si quieres saber mas , no dudes en preguntarnos!",
+				)
+		);
+        //dd($item);
+		$cmd = 'curl -X POST https://api.deautos.com/publications -d '."'".json_encode($item)."'".' -H "Content-Type:application/json;charset=utf-8" -H "Authorization: Bearer '.$DAUser->access_token.'"';
+		$result = json_decode(exec($cmd),true);
+        //dd($result);
+		if(isset($result[0]["type"]) === "Error"){
+			return false;
+		}
+		if($da){
+			$da->publication_id = $result["id"];
+			$da->permalink = $result["sheetUri"];
+			$da->save();
+		}else{
+			VehicleDeautos::create(array(
+				"vehicle_id" => $vehicle_id,
+				"publication_id" => $result["id"],
+				"permalink" => $result["sheetUri"]
+			));
+		}
+
+		return 'OK';
+
+	}
+
+	public function deleteItem($dealer_id,$vehicle_id,Request $request){
+		$DAUser = $request->session()->get('DAUser');
+		if(!$DAUser){
+			if($dealer_token = CarDealerToken::where("car_dealer_id",'=',$dealer_id)->first()){
+				$da_tokens = json_decode($dealer_token->deautos,true);
+				$DAUser = new \stdClass();
+				$DAUser->access_token = $da_tokens["access_token"];
+				$DAUser->user = $da_tokens["user"];
+				$DAUser->password = $da_tokens["password"];
+			}
+		}
+		$vehicle_deautos = VehicleDeautos::where("vehicle_id",'=',$vehicle_id)->first();
+		$cmd = 'curl -X DELETE https://api.deautos.com/publications/'.$vehicle_deautos->publication_id.' -H "Content-Type:application/json;charset=utf-8" -H "Authorization: '.$DAUser->access_token.'"';
+		$result = json_decode(exec($cmd),true);
+		if(isset($result[0]["type"]) === "Error"){
+			return $this->response(400,'Error');
+		}else{
+			VehicleDeautos::find($vehicle_deautos->id)->delete();
+			return $this->response(200,'OK');
+		}
+
+	}
+
+	public function updateFeatures($dealer_id,$vehicle_id){
+		$data = Input::all();
+		if($da = VehicleDeautos::where("vehicle_id",'=',$vehicle_id)->first()){
+            $da->type_vehicle_brand_id = $data["brand"];
+            $da->type_vehicle_model_id = $data["model"];
+            $da->type_vehicle_version_id = $data["version"];
+            $da->save();
+		}else{
+			VehicleDeautos::create(array(
+				"vehicle_id" => $vehicle_id,
+				"type_vehicle_brand_id" => $data["brand"],
+				"type_vehicle_model_id" => $data["model"],
+				"type_vehicle_version_id" => $data["version"]
+			));
+		}
+
+		return $this->response(200,'OK');
+	}
+}

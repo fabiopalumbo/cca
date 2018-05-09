@@ -1,0 +1,44 @@
+<center>
+    <p class="view-title">{{translation.VIEW.REGISTER.TITLE}}</p>
+    <form name="registerForm">
+        <ul class="list list-padding">
+            <li class="list__item">
+                <i ng-hide="user.name == '' || !registerForm.name.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.name == '' || registerForm.name.$valid" class="fa fa-times ex-icon"></i>
+                <input name="name" id="name" type="text" class="text-input text-input--transparent view-input" ng-pattern="/^[a-zA-Z áéíóúäëïöüàèìòùÁÉÍÓÚÄËÏÖÜÀÈÌÒÙ']*$/" ng-model="user.name" placeholder="{{translation.VIEW.REGISTER.NAME}}"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.surname == '' || !registerForm.surname.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.surname == '' || registerForm.surname.$valid" class="fa fa-times ex-icon"></i>
+                <input name="surname" id="surname" type="text" class="text-input text-input--transparent view-input" ng-pattern="/^[a-zA-Z áéíóúäëïöüàèìòùÁÉÍÓÚÄËÏÖÜÀÈÌÒÙ']*$/" ng-model="user.surname" placeholder="{{translation.VIEW.REGISTER.SURNAME}}"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.phone == '' || !registerForm.phone.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.phone == '' || registerForm.phone.$valid" class="fa fa-times ex-icon"></i>
+                <input name="phone" id="phone" type="text" class="text-input text-input--transparent view-input" ng-pattern="/^[0-9 -]*$/" ng-model="user.phone" placeholder="{{translation.VIEW.REGISTER.PHONE}}"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.email == '' || !registerForm.email.$valid" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.email == '' || registerForm.email.$valid" class="fa fa-times ex-icon"></i>
+                <input name="email" id="user" type="email" class="text-input text-input--transparent view-input" ng-pattern="/^[@._+a-zA-Z0-9áéíóúäëïöüàèìòùÁÉÍÓÚÄËÏÖÜÀÈÌÒÙ'-]*$/" ng-model="user.email" placeholder="{{translation.VIEW.REGISTER.EMAIL}}"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.password != user.passwordRepeat && registerForm.password.$valid || user.password == '' || user.passwordRepeat == ''" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.password == user.passwordRepeat && registerForm.password.$valid || user.password == '' || user.passwordRepeat == ''" class="fa fa-times ex-icon"></i>
+                <input name="password" id="password" type="{{inputType}}" class="text-input text-input--transparent view-input" ng-pattern="/^[a-zA-Z0-9]*$/" ng-model="user.password" placeholder="{{translation.VIEW.REGISTER.PASSWORD}}"/>
+            </li>
+            <li class="list__item">
+                <i ng-hide="user.password != user.passwordRepeat && registerForm.passwordRepeat.$valid || user.password == '' || user.passwordRepeat == ''" class="fa fa-check check-icon"></i>
+                <i ng-hide="user.password == user.passwordRepeat && registerForm.passwordRepeat.$valid || user.password == '' || user.passwordRepeat == ''" class="fa fa-times ex-icon"></i>
+                <input name="passwordRepeat" id="passwordRepeat" type="{{inputType}}" class="text-input text-input--transparent view-input" ng-pattern="/^[a-zA-Z0-9]*$/" ng-model="user.passwordRepeat" placeholder="{{translation.VIEW.REGISTER.REPEAT_PASSWORD}}"/>
+            </li>
+        </ul>
+        <label class="checkbox">
+            <input type="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()">
+            <div class="checkbox__checkmark"></div>
+            <small>{{translation.VIEW.LOGIN.CHECKBOX}}</small>
+        </label>
+    </form>
+    <button class="button button--outline form-button" ng-disabled="user.name == '' || user.surname == '' || user.email == '' || user.password == '' || user.passwordRepeat == '' || user.password != user.passwordRepeat || !registerForm.$valid" ng-click="printValues()">{{translation.VIEW.REGISTER.BUTTON}}</button>
+    <p><small>{{translation.VIEW.REGISTER.HAVE_ACCOUNT}}</small><a ng-click="$root.redirect('/login')" class="text-muted text-center naranja"> {{translation.VIEW.REGISTER.LOGIN}}</a></p>
+</center>

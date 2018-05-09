@@ -1,0 +1,24 @@
+<form id="login-modal" name="form" novalidate class="login-form">
+	<div class="modal-body">
+        <i class="pull-right cr-pointer fa fa-lg fa-times" data-ng-click="modalInstance.dismiss()"></i>
+		<h4 class="text-center">MODIFICAR MIS DATOS</h4>
+        <hr>
+        <h5 class="text-center bold">Actualizá tus datos!</h5>
+        <div class="form-group">
+            <input type="text" class="form-control disabled" name="email" data-ng-model="modal.email"  disabled>
+        </div>
+		<div class="form-group">
+			<input type="text" class="form-control" name="nombre" data-ng-model="modal.name" data-ng-change="checkStatus()" placeholder="Nombre"  required>
+		</div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="apellido" data-ng-model="modal.surname" data-ng-change="checkStatus()" placeholder="Apellido" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="telefono" data-ng-model="modal.phone" data-ng-change="checkStatus()" placeholder="Teléfono">
+        </div>
+        <div class="form-group">
+			<button id="confirmButton" data-ng-class="{'disabled': no_changes}" class="btn btn-inverse" data-ng-click="update()">CONFIRMAR</button>
+		</div>
+        <div class="alert" data-ng-class="authError.class" data-ng-show="authError.message">{{authError.message}}</div>
+	</div>
+</form>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html style="background-color: white">
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="bower_components/onsenui/build/css/font_awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="bower_components/onsenui/build/css/onsenui.css">
+    <link rel="stylesheet" type="text/css" href="assets/onsen-css-components/onsen-css-components.min.css">
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("deviceready", function () {
+            window.open = cordova.InAppBrowser.open;
+        }, false);
+    </script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/onsenui/build/js/onsenui.min.js"></script>
+    <script src="bower_components/script.js/dist/script.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-webstorage/angular-webstorage.min.js"></script>
+
+    <title>newProject</title>
+</head>
+<body data-ng-controller="MainCtrl">
+    <!--<div data-ng-include="'partials/menu-pulled.html'" xmlns="http://www.w3.org/1999/html"></div>-->
+    <!--<div data-ng-include="'partials/header.html'" xmlns="http://www.w3.org/1999/html"></div>-->
+
+    <ons-sliding-menu main-page="page.html" menu-page="menu.html" max-slide-distance="260px" type="push" var="menu">
+    </ons-sliding-menu>
+
+    <ons-template id="page.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="menu.openMenu()">
+                        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center"><img class="header-img" src="assets/img/loopear.png" ng-click="redirect('/')"></div>
+            </ons-toolbar>
+            <div data-ng-view=""></div>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="menu.html">
+        <ons-page modifier="menu-page">
+            <ons-toolbar modifier="transparent">
+                <div class="right">
+                    <ons-toolbar-button class="menu-close" ng-click="menu.close()">
+                        </ons-icon>{{translation.CLOSE}}
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+
+            <ons-list class="menu-list">
+                <ons-list-item class="menu-item center" ng-click="$root.redirect('/login');menu.close()">
+                    <!--<ons-icon icon="fa-plus"></ons-icon>-->
+                    {{translation.LOG_IN}}
+                </ons-list-item>
+                <ons-list-item class="menu-item center" ng-click="$root.redirect('/register');menu.close()">
+                    {{translation.REGISTER}}
+                </ons-list-item>
+                <ons-list-item class="menu-item center" ng-click="printLang();menu.close()">
+                    {{translation.LANGUAGE}}
+                </ons-list-item>
+                <ons-list-item class="menu-item center" ng-click="getAccounts()">
+                    Cuentas
+                </ons-list-item>
+            </ons-list>
+
+            <br>
+
+            <!--
+            <ons-list class="bottom-menu-list">
+                <ons-list-item class="bottom-menu-item" ng-click="menu.close()">
+                    Settings
+                    <div class="notification menu-notification">3</div>
+                </ons-list-item>
+            </ons-list>
+            -->
+        </ons-page>
+    </ons-template>
+
+
+
+    <script type="text/javascript">
+    //            app.initialize();
+    var initIOS7Layout = function() {
+        if(window.device && device.platform == 'iOS' && parseFloat(device.version) >= 7.0) {
+            var cssNode = document.createElement('link');
+            cssNode.type = 'text/css';
+            cssNode.rel = 'stylesheet';
+            cssNode.href = 'css/iosfix.css';
+            document.getElementsByTagName("head")[0].appendChild(cssNode);
+            setTimeout(function() {
+                var styleSheet = document.styleSheets[document.styleSheets.length - 1]
+                        , rules = styleSheet.cssRules? styleSheet.cssRules : styleSheet.rules
+                        , cssRule1 = rules[rules.length - 1]
+                        , cssRule2 = rules[rules.length - 2];
+                cssRule1.style.top = window.innerHeight - 40 + 'px';
+                cssRule2.style.top = window.innerHeight - 60 + 'px';
+                cssRule2.style.width = window.innerWidth + 'px';
+            }, 250);
+        }
+    };
+    $(function() {
+        $(document).ready(function () {
+            if (navigator.notification) { // Override default HTML alert with native dialog
+                initIOS7Layout();
+                window.alert = function (message) {
+                    navigator.notification.alert(
+                            message,    // message
+                            null,       // callback
+                            "newProject", // title
+                            'OK'        // buttonName
+                    );
+                };
+            }
+            $script([
+                'js/mobileDev.js'
+            ],function(){
+                $script([
+                    'scripts/app.js'
+                ],function(){
+                    $script([
+                        'scripts/controllers/main.js',
+                        'scripts/controllers/home.js',
+                        'scripts/controllers/login.js',
+                        'scripts/controllers/register.js',
+                        'scripts/services/translation-service.js',
+                        'scripts/services/user-accounts-service.js'
+                    ], function() {
+                        setTimeout(function () {
+                            angular.bootstrap($('body'), ['newProject']);
+                        }, 250);
+                    });
+                });
+            }, false);
+
+        });
+    });
+</script>
+</body>
+</html>

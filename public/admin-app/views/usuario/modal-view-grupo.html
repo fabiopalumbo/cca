@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h4>Seleccionar grupo</h4>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-xs-12">
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 24px;">#</th>
+						<th>Nombre</th>
+						<th>Descripcion </th>
+					</tr>
+				</thead>
+				<tbody>
+                    <tr ng-repeat="grupo in groups">
+						<td class="text-center">{{$index+1}}</td>
+						<td>{{grupo.name}}</td>
+                        <td>{{grupo.description}}</td>
+						<td data-title="''" class="text-center" style="width: 64px;">
+                            <input type="checkbox" data-ng-checked="grupo.selected" data-ng-model="grupo.selected" data-ng-change="change(grupo)">
+
+                        </td>
+					</tr>
+                </tbody>
+            </table>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button data-ng-disabled="form.$invalid" class="btn btn-success" data-ng-click="saveGrupos()" type="submit"><i class="fa fa-fw fa-save"></i> Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="modalInstance.dismiss()"><i class="fa fa-fw fa-backward"></i> Atrás</button>
+</div>

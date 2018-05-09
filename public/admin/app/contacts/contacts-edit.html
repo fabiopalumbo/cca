@@ -1,0 +1,51 @@
+<form id="register-modal" name="form" class="register-form">
+	<div class="modal-header">
+    <a data-ng-click="close();"><i class="pull-right cr-pointer fa fa-lg fa-times text-muted"></i></a>
+    <h3>{{object.id?'Editar':'Agregar'}} contacto</h3>
+  </div>
+	<div data-ng-show="showModalBody" class="modal-body">
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <label for="contact_type">Tipo de contacto:</label>
+        <select id="contact_type" data-ng-init="object.contact_type = object.contact_type || 'empresa'" class="form-control" name="contact_type" data-ng-model="object.contact_type" data-ng-change="changeType()" >
+          <option value="empresa">Empresa</option>
+          <option value="persona">Persona</option>
+        </select>
+        <label data-ng-show="object.contact_type == 'persona'" for="nombre">Nombre:</label>
+        <input data-ng-show="object.contact_type == 'persona'" id="nombre" class="form-control" type="text" name="nombre" data-ng-model="object.first_name"  autofocus />
+        <label data-ng-show="object.contact_type == 'persona'" for="apellido">Apellido:</label>
+        <input data-ng-show="object.contact_type == 'persona'" id="apellido" class="form-control" type="text" name="apellido" data-ng-model="object.last_name"  />
+        <label data-ng-show="object.contact_type == 'persona'" for="dni">DNI:</label>
+        <input data-ng-show="object.contact_type == 'persona'" id="dni" class="form-control" type="text" name="dni" data-ng-model="object.dni"  />
+        <label data-ng-show="object.contact_type == 'empresa'" for="business_name">Nombre comercial:</label>
+        <input data-ng-show="object.contact_type == 'empresa'" id="business_name" class="form-control" type="text" name="business_name" data-ng-model="object.business_name"  />
+        <label data-ng-show="object.contact_type == 'empresa'" for="business_name">CUIT:</label>
+        <input data-ng-show="object.contact_type == 'empresa'" id="cuit" class="form-control" type="text" name="cuit" data-ng-model="object.cuit"  />
+        <label for="email">Email:</label>
+        <input id="email" class="form-control" type="text" name="email" data-ng-model="object.email" required autofocus/>
+        <label for="zip_code">Código Postal:</label>
+        <input id="zip_code" class="form-control" type="text" name="zip_code" data-ng-model="object.zip_code"  />
+        <label for="birthday">Cumpleaños:</label>
+        <input id="birthday" class="form-control" type="text" name="birthday" data-ng-model="object.birthday"  />
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="phone">Telefono:</label>
+        <input id="phone" class="form-control" type="text" name="phone" data-ng-model="object.phone" required autofocus/>
+        <label for="mobile">Telefono celular:</label>
+        <input id="mobile" class="form-control" type="text" name="mobile" data-ng-model="object.mobile"  />
+        <label for="address">Dirección:</label>
+        <input id="address" class="form-control" type="text" name="address" data-ng-model="object.address"  />
+        <label for="province">Provincia:</label>
+        <input id="province" class="form-control" type="text" name="province" data-ng-model="object.province"  />
+        <label for="iva_condition">IVA:</label>
+        <input id="iva_condition" class="form-control" type="text" name="iva_condition" data-ng-model="object.iva_condition"  />
+        <label for="iibb_condition">IIBB:</label>
+        <input id="iibb_condition" class="form-control" type="text" name="iibb_condition" data-ng-model="object.iibb_condition"  />
+      </div>
+    </div>
+	</div>
+	<div class="modal-footer">
+		<a data-ng-click="close();" class="btn btn-midnightblue-alt" type="button"><i class="fa fa-fw fa-backward"></i> Atrás</a>
+		<button data-ng-disabled="form.$invalid" class="btn btn-social btn-facebook-alt" data-ng-click="save(form.$invalid)"><i class="fa fa-fw fa-save"></i> Guardar</button>
+	</div>
+</form>
